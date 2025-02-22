@@ -13,7 +13,7 @@ pub struct LinearLayer {
 }
 
 impl LinearLayer {
-    pub fn new(input_size: usize, output_size: usize) -> Self {
+    pub fn new(input_size: usize, output_size: usize, _gain: Option<Number>) -> Self {
         Self {
             input_size,
             output_size,
@@ -27,11 +27,11 @@ impl LinearLayer {
 }
 
 impl Layer for LinearLayer {
-    fn forward(&self, x: Numbers) -> Numbers {
+    fn forward(&self, _x: Numbers) -> Numbers {
         unimplemented!()
     }
 
-    fn backward(&self, grad_z: Numbers) -> Numbers {
+    fn backward(&self, _grad_z: Numbers) -> Numbers {
         unimplemented!()
     }
 
