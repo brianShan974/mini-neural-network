@@ -14,15 +14,7 @@ pub struct LinearLayer {
 
 impl LinearLayer {
     pub fn new(input_size: usize, output_size: usize, _gain: Option<Number>) -> Self {
-        Self {
-            input_size,
-            output_size,
-            weights: Vec::new(),
-            biases: Vec::new(),
-            w_cache: Cell::new(Vec::new()),
-            b_cache: Cell::new(Vec::new()),
-            input_cache: Cell::new(Vec::new()),
-        }
+        unimplemented!()
     }
 }
 

@@ -6,14 +6,6 @@ pub fn xavier_init(size: usize, gain: Number) -> Vector {
     unimplemented!()
 }
 
-pub fn matrix_multiply(a: Vec<Vector>, b: Vec<Vector>) -> Vec<Vector> {
-    assert_eq!(a[0].len(), b.len());
-
-    let mut c = Vec::with_capacity(a.len());
-
-    c
-}
-
 pub fn sigmoid_single(x: Number) -> Number {
     1.0 as Number / (1.0 as Number + (-x).exp())
 }
