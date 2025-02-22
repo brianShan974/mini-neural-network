@@ -1,9 +1,9 @@
-use crate::{Number, Numbers};
+use crate::{Number, Vector};
 
 pub trait Layer {
-    fn forward(&self, x: Numbers) -> Numbers;
+    fn forward(&self, x: Vector) -> Vector;
 
-    fn backward(&self, grad_z: Numbers) -> Numbers;
+    fn backward(&self, grad_z: Vector) -> Vector;
 
     fn update_parameters(&mut self, _learning_rate: Number) {}
 }

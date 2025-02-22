@@ -1,7 +1,7 @@
-use crate::Numbers;
+use crate::Vector;
 
 pub trait LossLayer {
-    fn forward(&self, pred: Numbers, target: Numbers);
+    fn forward(&self, pred: Vector, target: Vector);
 
-    fn backward(&self) -> Numbers;
+    fn backward(&self) -> Vector;
 }

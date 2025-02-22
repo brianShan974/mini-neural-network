@@ -1,13 +1,13 @@
-use crate::{Numbers, layer::Layer};
+use crate::{Vector, layer::Layer};
 
 pub struct IdentityLayer;
 
 impl Layer for IdentityLayer {
-    fn forward(&self, x: Numbers) -> Numbers {
+    fn forward(&self, x: Vector) -> Vector {
         x
     }
 
-    fn backward(&self, grad_z: Numbers) -> Numbers {
+    fn backward(&self, grad_z: Vector) -> Vector {
         grad_z
     }
 }

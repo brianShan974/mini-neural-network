@@ -1,18 +1,12 @@
-use rand::Rng;
+use crate::{Number, Vector};
 
-use crate::{Number, Numbers};
-
-pub fn xavier_init(size: usize, gain: Number) -> Numbers {
-    let rng = rand::rng();
+pub fn xavier_init(size: usize, gain: Number) -> Vector {
     let half_width = gain * (6.0 as Number / size as Number).sqrt();
 
-    rng.random_iter()
-        .take(size)
-        .map(|x: Number| x * 2.0 as Number * half_width - half_width)
-        .collect()
+    unimplemented!()
 }
 
-pub fn matrix_multiply(a: Vec<Numbers>, b: Vec<Numbers>) -> Vec<Numbers> {
+pub fn matrix_multiply(a: Vec<Vector>, b: Vec<Vector>) -> Vec<Vector> {
     assert_eq!(a[0].len(), b.len());
 
     let mut c = Vec::with_capacity(a.len());

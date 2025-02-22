@@ -1,15 +1,15 @@
 use std::cell::Cell;
 
-use crate::{Number, Numbers, layer::Layer};
+use crate::{Number, Vector, layer::Layer};
 
 pub struct LinearLayer {
     input_size: usize,
     output_size: usize,
-    weights: Vec<Numbers>,
-    biases: Vec<Numbers>,
-    w_cache: Cell<Vec<Numbers>>,
-    b_cache: Cell<Vec<Numbers>>,
-    input_cache: Cell<Numbers>,
+    weights: Vec<Vector>,
+    biases: Vec<Vector>,
+    w_cache: Cell<Vec<Vector>>,
+    b_cache: Cell<Vec<Vector>>,
+    input_cache: Cell<Vector>,
 }
 
 impl LinearLayer {
@@ -27,11 +27,11 @@ impl LinearLayer {
 }
 
 impl Layer for LinearLayer {
-    fn forward(&self, _x: Numbers) -> Numbers {
+    fn forward(&self, _x: Vector) -> Vector {
         unimplemented!()
     }
 
-    fn backward(&self, _grad_z: Numbers) -> Numbers {
+    fn backward(&self, _grad_z: Vector) -> Vector {
         unimplemented!()
     }
 
