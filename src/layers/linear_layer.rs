@@ -5,17 +5,17 @@ use crate::{Matrix, Number, Vector};
 use super::layer::Layer;
 
 pub struct LinearLayer {
-    input_size: usize,
-    output_size: usize,
-    weights: Matrix,
-    biases: Matrix,
-    w_cache: Cell<Matrix>,
-    b_cache: Cell<Matrix>,
-    input_cache: Cell<Vector>,
+    _input_size: usize,
+    _output_size: usize,
+    _weights: Matrix,
+    _biases: Matrix,
+    _w_cache: Cell<Matrix>,
+    _b_cache: Cell<Matrix>,
+    _input_cache: Cell<Vector>,
 }
 
 impl LinearLayer {
-    pub fn new(input_size: usize, output_size: usize, _gain: Option<Number>) -> Self {
+    pub fn _new(_input_size: usize, _output_size: usize, _gain: Option<Number>) -> Self {
         unimplemented!()
     }
 }
