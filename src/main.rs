@@ -1,9 +1,12 @@
+mod activation_functions;
+mod utils;
+
 mod layer;
 mod loss_layer;
 
-mod identity_layer;
+mod linear_layer;
 
-mod activation_functions;
+mod identity_layer;
 
 type Number = f64;
 type Numbers = Vec<Number>;
