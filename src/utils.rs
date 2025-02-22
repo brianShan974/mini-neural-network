@@ -1,4 +1,16 @@
-use crate::Number;
+use rand::Rng;
+
+use crate::{Number, Numbers};
+
+pub fn xavier_init(size: usize, gain: Number) -> Numbers {
+    let rng = rand::rng();
+    let half_width = gain * (6.0 as Number / size as Number).sqrt();
+
+    rng.random_iter()
+        .take(size)
+        .map(|x: Number| x * 2.0 as Number * half_width - half_width)
+        .collect()
+}
 
 pub fn sigmoid_single(x: Number) -> Number {
     1.0 as Number / (1.0 as Number + (-x).exp())
