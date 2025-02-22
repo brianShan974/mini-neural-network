@@ -3,7 +3,7 @@ mod loss_layer;
 
 mod identity_layer;
 
-mod math_functions;
+mod activation_functions;
 
 type Number = f64;
 type Numbers = Vec<Number>;
