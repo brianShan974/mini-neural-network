@@ -1,14 +1,16 @@
 use std::cell::Cell;
 
-use crate::{Number, Vector, layer::Layer};
+use crate::{Matrix, Number, Vector};
+
+use super::layer::Layer;
 
 pub struct LinearLayer {
     input_size: usize,
     output_size: usize,
-    weights: Vec<Vector>,
-    biases: Vec<Vector>,
-    w_cache: Cell<Vec<Vector>>,
-    b_cache: Cell<Vec<Vector>>,
+    weights: Matrix,
+    biases: Matrix,
+    w_cache: Cell<Matrix>,
+    b_cache: Cell<Matrix>,
     input_cache: Cell<Vector>,
 }
 

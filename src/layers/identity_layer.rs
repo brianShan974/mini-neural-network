@@ -1,4 +1,6 @@
-use crate::{Vector, layer::Layer};
+use crate::Vector;
+
+use super::layer::Layer;
 
 pub struct IdentityLayer;
 
