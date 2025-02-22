@@ -1,4 +1,7 @@
 mod layer;
+mod loss_layer;
+
+mod identity_layer;
 
 mod math_functions;
 
