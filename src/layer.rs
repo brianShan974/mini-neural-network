@@ -5,5 +5,5 @@ pub trait Layer {
 
     fn backward(&self, grad_z: Numbers) -> Numbers;
 
-    fn update_parameters(&mut self);
+    fn update_parameters(&mut self) {}
 }
