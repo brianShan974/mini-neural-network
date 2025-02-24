@@ -16,7 +16,7 @@ impl Layer for ReluLayer {
         relu(x)
     }
 
-    fn backward(&self, grad_z: Matrix) -> Matrix {
+    fn backward(&mut self, grad_z: Matrix) -> Matrix {
         self.cache.clone().unwrap() * grad_z
     }
 }

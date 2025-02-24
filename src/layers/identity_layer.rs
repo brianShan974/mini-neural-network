@@ -9,7 +9,7 @@ impl Layer for IdentityLayer {
         x
     }
 
-    fn backward(&self, grad_z: Matrix) -> Matrix {
+    fn backward(&mut self, grad_z: Matrix) -> Matrix {
         grad_z
     }
 }

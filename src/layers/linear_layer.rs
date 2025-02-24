@@ -23,8 +23,8 @@ impl Layer for LinearLayer {
         unimplemented!()
     }
 
-    fn backward(&self, grad_z: Matrix) -> Matrix {
-        unimplemented!()
+    fn backward(&mut self, grad_z: Matrix) -> Matrix {
+        grad_z.dot(&self.weights.t())
     }
 
     fn update_parameters(&mut self, _learning_rate: Number) {
