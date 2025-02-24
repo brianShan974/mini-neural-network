@@ -5,17 +5,18 @@ use crate::{
 
 use super::layer::Layer;
 
+#[derive(Default)]
 pub struct SigmoidLayer {
-    cache: Vector,
+    cache: Option<Vector>,
 }
 
 impl Layer for SigmoidLayer {
     fn forward(&mut self, x: Vector) -> Vector {
-        self.cache = sigmoid_derivative(x.clone());
+        self.cache = Some(sigmoid_derivative(x.clone()));
         sigmoid(x)
     }
 
     fn backward(&self, grad_z: Vector) -> Vector {
-        self.cache.clone() * grad_z
+        self.cache.clone().unwrap() * grad_z
     }
 }
