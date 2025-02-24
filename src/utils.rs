@@ -1,9 +1,18 @@
-use crate::{Number, Vector};
+use ndarray::Array;
+use ndarray_rand::{RandomExt, rand_distr::Uniform};
+
+use crate::{Matrix, Number, Vector};
 
 pub fn xavier_init(size: usize, gain: Number) -> Vector {
     let half_width = gain * (6.0 as Number / size as Number).sqrt();
 
-    unimplemented!()
+    Array::random((size,), Uniform::new_inclusive(-half_width, half_width))
+}
+
+pub fn xavier_init_matrix(size: (usize, usize), gain: Number) -> Matrix {
+    let half_width = gain * (6.0 as Number / size.0 as Number).sqrt();
+
+    Array::random(size, Uniform::new_inclusive(-half_width, half_width))
 }
 
 pub fn sigmoid_single(x: Number) -> Number {
