@@ -1,5 +1,7 @@
-use ndarray::Array;
+use ndarray::{Array, Axis, stack};
 use ndarray_rand::{RandomExt, rand_distr::Uniform};
+
+use std::iter::repeat_n;
 
 use crate::{Matrix, Number, Vector};
 
@@ -34,4 +36,10 @@ pub fn relu_derivative_single(x: Number) -> Number {
     } else {
         0.0 as Number
     }
+}
+
+pub fn repeat(x: &Vector, n: usize) -> Matrix {
+    let vecs: Vec<_> = repeat_n(x.view(), n).collect();
+
+    stack(Axis(0), &vecs).unwrap()
 }
