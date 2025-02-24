@@ -1,5 +1,5 @@
 use crate::{
-    Vector,
+    Matrix,
     activation_functions::{relu, relu_derivative},
 };
 
@@ -7,16 +7,16 @@ use super::layer::Layer;
 
 #[derive(Default)]
 pub struct ReluLayer {
-    cache: Option<Vector>,
+    cache: Option<Matrix>,
 }
 
 impl Layer for ReluLayer {
-    fn forward(&mut self, x: Vector) -> Vector {
+    fn forward(&mut self, x: Matrix) -> Matrix {
         self.cache = Some(relu_derivative(x.clone()));
         relu(x)
     }
 
-    fn backward(&self, grad_z: Vector) -> Vector {
+    fn backward(&self, grad_z: Matrix) -> Matrix {
         self.cache.clone().unwrap() * grad_z
     }
 }

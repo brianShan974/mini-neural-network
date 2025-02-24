@@ -1,15 +1,15 @@
-use crate::Vector;
+use crate::Matrix;
 
 use super::layer::Layer;
 
 pub struct IdentityLayer;
 
 impl Layer for IdentityLayer {
-    fn forward(&mut self, x: Vector) -> Vector {
+    fn forward(&mut self, x: Matrix) -> Matrix {
         x
     }
 
-    fn backward(&self, grad_z: Vector) -> Vector {
+    fn backward(&self, grad_z: Matrix) -> Matrix {
         grad_z
     }
 }

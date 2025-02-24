@@ -1,5 +1,3 @@
-use std::cell::Cell;
-
 use crate::{Matrix, Number, Vector};
 
 use super::layer::Layer;
@@ -21,11 +19,11 @@ impl LinearLayer {
 }
 
 impl Layer for LinearLayer {
-    fn forward(&mut self, _x: Vector) -> Vector {
+    fn forward(&mut self, x: Matrix) -> Matrix {
         unimplemented!()
     }
 
-    fn backward(&self, _grad_z: Vector) -> Vector {
+    fn backward(&self, grad_z: Matrix) -> Matrix {
         unimplemented!()
     }
 

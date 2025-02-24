@@ -1,5 +1,5 @@
 use crate::{
-    Vector,
+    Matrix,
     activation_functions::{sigmoid, sigmoid_derivative},
 };
 
@@ -7,16 +7,16 @@ use super::layer::Layer;
 
 #[derive(Default)]
 pub struct SigmoidLayer {
-    cache: Option<Vector>,
+    cache: Option<Matrix>,
 }
 
 impl Layer for SigmoidLayer {
-    fn forward(&mut self, x: Vector) -> Vector {
+    fn forward(&mut self, x: Matrix) -> Matrix {
         self.cache = Some(sigmoid_derivative(x.clone()));
         sigmoid(x)
     }
 
-    fn backward(&self, grad_z: Vector) -> Vector {
+    fn backward(&self, grad_z: Matrix) -> Matrix {
         self.cache.clone().unwrap() * grad_z
     }
 }
