@@ -37,7 +37,12 @@ impl LinearLayer {
 
 impl Layer for LinearLayer {
     fn forward(&mut self, x: Matrix) -> Matrix {
-        unimplemented!()
+        self.input_cache = Some(x.clone());
+
+        let batch_size = x.shape()[0];
+        let bias = repeat(&self.bias, batch_size);
+
+        x.dot(&self.weights) + bias
     }
 
     fn backward(&mut self, grad_z: Matrix) -> Matrix {
