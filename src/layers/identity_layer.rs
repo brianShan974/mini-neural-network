@@ -5,7 +5,7 @@ use super::layer::Layer;
 pub struct IdentityLayer;
 
 impl Layer for IdentityLayer {
-    fn forward(&self, x: Vector) -> Vector {
+    fn forward(&mut self, x: Vector) -> Vector {
         x
     }
 

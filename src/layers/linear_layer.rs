@@ -21,7 +21,7 @@ impl LinearLayer {
 }
 
 impl Layer for LinearLayer {
-    fn forward(&self, _x: Vector) -> Vector {
+    fn forward(&mut self, _x: Vector) -> Vector {
         unimplemented!()
     }
 

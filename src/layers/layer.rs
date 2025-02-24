@@ -1,7 +1,7 @@
 use crate::{Number, Vector};
 
 pub trait Layer {
-    fn forward(&self, x: Vector) -> Vector;
+    fn forward(&mut self, x: Vector) -> Vector;
 
     fn backward(&self, grad_z: Vector) -> Vector;
 

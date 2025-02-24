@@ -1,19 +1,18 @@
-use std::cell::Cell;
-
-use crate::Vector;
+use crate::{Vector, activation_functions::relu};
 
 use super::layer::Layer;
 
 pub struct SigmoidLayer {
-    _cache: Cell<Vector>,
+    cache: Vector,
 }
 
 impl Layer for SigmoidLayer {
-    fn forward(&self, _x: Vector) -> Vector {
-        unimplemented!()
+    fn forward(&mut self, x: Vector) -> Vector {
+        self.cache = x.clone();
+        relu(x)
     }
 
-    fn backward(&self, _grad_z: Vector) -> Vector {
-        unimplemented!()
+    fn backward(&self, grad_z: Vector) -> Vector {
+        self.cache.clone() * grad_z
     }
 }
