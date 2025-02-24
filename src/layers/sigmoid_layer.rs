@@ -1,4 +1,7 @@
-use crate::{Vector, activation_functions::relu};
+use crate::{
+    Vector,
+    activation_functions::{sigmoid, sigmoid_derivative},
+};
 
 use super::layer::Layer;
 
@@ -8,8 +11,8 @@ pub struct SigmoidLayer {
 
 impl Layer for SigmoidLayer {
     fn forward(&mut self, x: Vector) -> Vector {
-        self.cache = x.clone();
-        relu(x)
+        self.cache = sigmoid_derivative(x.clone());
+        sigmoid(x)
     }
 
     fn backward(&self, grad_z: Vector) -> Vector {
