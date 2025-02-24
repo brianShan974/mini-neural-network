@@ -1,3 +1,5 @@
+use ndarray::Array;
+
 use crate::{
     Matrix, Number, Vector,
     utils::{repeat, xavier_init, xavier_init_matrix},
@@ -46,6 +48,11 @@ impl Layer for LinearLayer {
     }
 
     fn backward(&mut self, grad_z: Matrix) -> Matrix {
+        let batch_size = grad_z.shape()[0];
+
+        self.grad_w_cache = self.input_cache.clone().map(|ic: _| ic.t().dot(&grad_z));
+        self.grad_b_cache = Some(Array::ones((batch_size, 1)).dot(&grad_z));
+
         grad_z.dot(&self.weights.t())
     }
 
