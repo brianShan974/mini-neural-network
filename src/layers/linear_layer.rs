@@ -1,4 +1,4 @@
-use ndarray::Array;
+use ndarray::{Array, s};
 
 use crate::{
     Matrix, Number, Vector,
@@ -56,7 +56,15 @@ impl Layer for LinearLayer {
         grad_z.dot(&self.weights.t())
     }
 
-    fn update_parameters(&mut self, _learning_rate: Number) {
-        unimplemented!()
+    fn update_parameters(&mut self, learning_rate: Number) {
+        self.weights = &self.weights - self.grad_w_cache.clone().unwrap() * learning_rate;
+        self.bias = &self.bias
+            - self
+                .grad_b_cache
+                .clone()
+                .unwrap()
+                .slice(s![0, ..])
+                .to_owned()
+                * learning_rate;
     }
 }
