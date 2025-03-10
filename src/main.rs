@@ -1,6 +1,7 @@
 use ndarray::{Array1, Array2};
 
 mod activation_functions;
+mod loss_functions;
 mod utils;
 
 mod layers;
