@@ -1,4 +1,7 @@
-use crate::{Number, Vector};
+use crate::{
+    Number, Vector,
+    loss_functions::{mse, mse_derivative},
+};
 
 use super::loss_layer::LossLayer;
 
@@ -8,10 +11,19 @@ pub struct MSELossLayer {
 
 impl LossLayer for MSELossLayer {
     fn forward(&mut self, pred: Vector, target: Vector) -> Number {
-        unimplemented!()
+        let result = mse(&pred, &target);
+
+        self.pred_target_cache = Some((pred, target));
+
+        result
     }
 
     fn backward(&self) -> Vector {
-        unimplemented!()
+        let (pred, target) = self
+            .pred_target_cache
+            .as_ref()
+            .expect("You have to call forward before calling backward!");
+
+        mse_derivative(pred, target)
     }
 }
