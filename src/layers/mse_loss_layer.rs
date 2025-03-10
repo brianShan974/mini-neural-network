@@ -1,4 +1,4 @@
-use crate::Vector;
+use crate::{Number, Vector};
 
 use super::loss_layer::LossLayer;
 
@@ -8,7 +8,7 @@ pub struct MSELossLayer {
 }
 
 impl LossLayer for MSELossLayer {
-    fn forward(&self, pred: Vector, target: Vector) {
+    fn forward(&self, pred: Vector, target: Vector) -> Number {
         unimplemented!()
     }
 
