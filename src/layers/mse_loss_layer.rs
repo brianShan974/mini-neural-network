@@ -3,8 +3,7 @@ use crate::{Number, Vector};
 use super::loss_layer::LossLayer;
 
 pub struct MSELossLayer {
-    y_pred_cache: Option<Vector>,
-    y_target_cache: Option<Vector>,
+    pred_target_cache: Option<(Vector, Vector)>,
 }
 
 impl LossLayer for MSELossLayer {

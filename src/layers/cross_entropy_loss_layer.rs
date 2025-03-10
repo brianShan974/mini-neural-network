@@ -3,8 +3,7 @@ use crate::{Number, Vector};
 use super::loss_layer::LossLayer;
 
 pub struct CrossEntropyLossLayer {
-    y_target_cache: Option<Vector>,
-    probs_cache: Option<Vector>,
+    target_prob_cache: Option<(Vector, Vector)>,
 }
 
 impl LossLayer for CrossEntropyLossLayer {
