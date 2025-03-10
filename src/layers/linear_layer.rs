@@ -62,7 +62,7 @@ impl Layer for LinearLayer {
             - self
                 .grad_b_cache
                 .clone()
-                .unwrap()
+                .expect("You must call forward and backward then update_parameters!")
                 .slice(s![0, ..])
                 .to_owned()
                 * learning_rate;
