@@ -8,7 +8,7 @@ pub struct MSELossLayer {
 }
 
 impl LossLayer for MSELossLayer {
-    fn forward(&self, pred: Vector, target: Vector) -> Number {
+    fn forward(&mut self, pred: Vector, target: Vector) -> Number {
         unimplemented!()
     }
 

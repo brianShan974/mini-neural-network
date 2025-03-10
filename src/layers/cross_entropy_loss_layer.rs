@@ -8,7 +8,7 @@ pub struct CrossEntropyLossLayer {
 }
 
 impl LossLayer for CrossEntropyLossLayer {
-    fn forward(&self, pred: Vector, target: Vector) -> Number {
+    fn forward(&mut self, pred: Vector, target: Vector) -> Number {
         unimplemented!()
     }
 
