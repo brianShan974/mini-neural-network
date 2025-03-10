@@ -1,9 +1,10 @@
 use crate::{Number, Vector};
 
 pub fn mse(pred: &Vector, target: &Vector) -> Number {
-    unimplemented!()
+    let err = pred - target;
+    err.mapv(|i| i.powi(2)).mean().unwrap()
 }
 
 pub fn mse_derivative(pred: &Vector, target: &Vector) -> Vector {
-    unimplemented!()
+    2.0 as Number * (pred - target) / pred.ndim() as Number
 }
