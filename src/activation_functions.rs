@@ -1,5 +1,5 @@
 use crate::{
-    Matrix,
+    Matrix, Number, Vector,
     utils::{relu_derivative_single, relu_single, sigmoid_derivative_single, sigmoid_single},
 };
 
@@ -21,4 +21,11 @@ pub fn relu(mut x: Matrix) -> Matrix {
 pub fn relu_derivative(mut x: Matrix) -> Matrix {
     x.par_mapv_inplace(relu_derivative_single);
     x
+}
+
+pub fn softmax(mut x: Vector) -> Vector {
+    x.par_mapv_inplace(Number::exp);
+    let sum = x.sum();
+
+    x / sum
 }
