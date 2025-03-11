@@ -24,6 +24,7 @@ impl MultiLayerNetwork {
             layers.push(Box::new(next_layer));
             let next_activation_layer = activations.pop().unwrap();
             layers.push(Box::new(next_activation_layer));
+            current_input_dim = neuron;
         }
 
         Self { layers }
