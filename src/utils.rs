@@ -1,4 +1,4 @@
-use ndarray::{Array, Axis, stack};
+use ndarray::{Array, Array1, Axis, stack};
 use ndarray_rand::{RandomExt, rand_distr::Uniform};
 use ndarray_stats::QuantileExt;
 
@@ -51,4 +51,12 @@ pub fn min_in_matrix(dataset: &Matrix) -> Vector {
 
 pub fn max_in_matrix(dataset: &Matrix) -> Vector {
     dataset.map_axis(Axis(0), |view| *view.max().unwrap())
+}
+
+pub fn argmin_in_matrix(dataset: &Matrix) -> Array1<usize> {
+    dataset.map_axis(Axis(0), |view| view.argmin().unwrap())
+}
+
+pub fn argmax_in_matrix(dataset: &Matrix) -> Array1<usize> {
+    dataset.map_axis(Axis(0), |view| view.argmax().unwrap())
 }
