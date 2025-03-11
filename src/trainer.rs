@@ -7,8 +7,8 @@ use crate::{
     multilayer_network::MultiLayerNetwork,
 };
 
-pub struct Trainer {
-    network: MultiLayerNetwork,
+pub struct Trainer<'a> {
+    network: &'a mut MultiLayerNetwork,
     loss_layer: Box<dyn LossLayer>,
     batch_size: usize,
     n_epoch: usize,
@@ -16,9 +16,9 @@ pub struct Trainer {
     shuffle_flag: bool,
 }
 
-impl Trainer {
+impl<'a> Trainer<'a> {
     pub fn new(
-        network: MultiLayerNetwork,
+        network: &'a mut MultiLayerNetwork,
         loss_layer: Box<dyn LossLayer>,
         batch_size: usize,
         n_epoch: usize,
