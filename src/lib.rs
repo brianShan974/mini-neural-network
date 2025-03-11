@@ -12,6 +12,6 @@ pub mod trainer;
 
 pub mod preprocessor;
 
-type Number = f64;
-type Vector = Array1<Number>;
-type Matrix = Array2<Number>;
+pub type Number = f64;
+pub type Vector = Array1<Number>;
+pub type Matrix = Array2<Number>;
