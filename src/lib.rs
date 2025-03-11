@@ -8,6 +8,8 @@ pub mod layers;
 
 pub mod multilayer_network;
 
+pub mod trainer;
+
 type Number = f64;
 type Vector = Array1<Number>;
 type Matrix = Array2<Number>;
