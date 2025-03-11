@@ -39,22 +39,22 @@ impl Trainer {
         unimplemented!()
     }
 
-    pub fn eval_loss(&mut self, input_dataset: Matrix, output_dataset: Matrix) -> Number {
+    pub fn eval_loss(&mut self, input_dataset: Matrix, target_dataset: Matrix) -> Number {
         assert_eq!(
             input_dataset.nrows(),
-            output_dataset.nrows(),
+            target_dataset.nrows(),
             "They must have the same amount of samples!"
         );
 
         let pred = self.network.forward(input_dataset);
 
-        self.loss_layer.forward(pred, output_dataset)
+        self.loss_layer.forward(pred, target_dataset)
     }
 
-    fn shuffle(&mut self, input_dataset: Matrix, output_dataset: Matrix) -> (Matrix, Matrix) {
+    fn shuffle(input_dataset: Matrix, target_dataset: Matrix) -> (Matrix, Matrix) {
         assert_eq!(
             input_dataset.nrows(),
-            output_dataset.nrows(),
+            target_dataset.nrows(),
             "They must have the same amount of samples!"
         );
 
@@ -63,7 +63,7 @@ impl Trainer {
 
         (
             input_dataset.select(Axis(1), &indices),
-            output_dataset.select(Axis(1), &indices),
+            target_dataset.select(Axis(1), &indices),
         )
     }
 }
