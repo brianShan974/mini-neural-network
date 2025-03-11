@@ -1,7 +1,7 @@
 use ndarray::{Array, Axis, stack};
 use ndarray_rand::{RandomExt, rand_distr::Uniform};
 
-use std::iter::repeat_n;
+use std::{cmp::Ordering, iter::repeat_n};
 
 use crate::{Matrix, Number, Vector};
 
@@ -42,4 +42,22 @@ pub fn repeat(x: &Vector, n: usize) -> Matrix {
     let vecs: Vec<_> = repeat_n(x.view(), n).collect();
 
     stack(Axis(0), &vecs).unwrap()
+}
+
+pub fn min_in_matrix(dataset: &Matrix) -> Vector {
+    dataset.map_axis(Axis(0), |view| {
+        *view
+            .iter()
+            .min_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::Equal))
+            .unwrap()
+    })
+}
+
+pub fn max_in_matrix(dataset: &Matrix) -> Vector {
+    dataset.map_axis(Axis(0), |view| {
+        *view
+            .iter()
+            .max_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::Equal))
+            .unwrap()
+    })
 }
