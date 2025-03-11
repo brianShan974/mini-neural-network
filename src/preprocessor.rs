@@ -1,8 +1,10 @@
-use crate::{Matrix, Number};
+use crate::{
+    Matrix, Vector,
+};
 
 pub struct Preprocessor {
-    min: Number,
-    max: Number,
+    min: Vector,
+    max: Vector,
 }
 
 impl Preprocessor {
