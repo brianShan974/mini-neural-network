@@ -16,7 +16,7 @@ impl Preprocessor {
         }
     }
 
-    pub fn apply(&mut self, dataset: Matrix) -> Matrix {
+    pub fn apply(&self, dataset: Matrix) -> Matrix {
         let n = dataset.nrows();
 
         let min_matrix = repeat(&self.min, n);
