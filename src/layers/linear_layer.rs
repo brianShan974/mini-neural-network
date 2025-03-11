@@ -41,14 +41,14 @@ impl Layer for LinearLayer {
     fn forward(&mut self, x: Matrix) -> Matrix {
         self.input_cache = Some(x.clone());
 
-        let batch_size = x.shape()[0];
+        let batch_size = x.nrows();
         let bias = repeat(&self.bias, batch_size);
 
         x.dot(&self.weights) + bias
     }
 
     fn backward(&mut self, grad_z: Matrix) -> Matrix {
-        let batch_size = grad_z.shape()[0];
+        let batch_size = grad_z.nrows();
 
         self.grad_w_cache = self.input_cache.clone().map(|ic: _| ic.t().dot(&grad_z));
         self.grad_b_cache = Some(Array::ones((batch_size, 1)).dot(&grad_z));
