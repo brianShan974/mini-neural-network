@@ -28,9 +28,11 @@ impl Trainer {
         }
     }
 
-    pub fn train(&mut self, input_dataset: Matrix, output_dataset: Matrix) {}
+    pub fn train(&mut self, input_dataset: Matrix, output_dataset: Matrix) {
+        unimplemented!()
+    }
 
-    pub fn eval_loss(&self, input_dataset: Matrix, output_dataset: Matrix) -> Matrix {
+    pub fn eval_loss(&mut self, input_dataset: Matrix, output_dataset: Matrix) -> Matrix {
         unimplemented!()
     }
 
