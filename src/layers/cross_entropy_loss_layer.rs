@@ -3,6 +3,7 @@ use crate::{Matrix, Number, activation_functions::softmax};
 use super::loss_layer::LossLayer;
 
 /// Computes the softmax followed by the negative log-likelihood loss.
+#[derive(Default)]
 pub struct CrossEntropyLossLayer {
     prob_target_cache: Option<(Matrix, Matrix)>,
 }

@@ -5,6 +5,7 @@ use crate::{
 
 use super::loss_layer::LossLayer;
 
+#[derive(Default)]
 pub struct MSELossLayer {
     pred_target_cache: Option<(Matrix, Matrix)>,
 }
