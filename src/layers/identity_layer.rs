@@ -2,6 +2,7 @@ use crate::Matrix;
 
 use super::layer::Layer;
 
+#[derive(Default)]
 pub struct IdentityLayer;
 
 impl Layer for IdentityLayer {
