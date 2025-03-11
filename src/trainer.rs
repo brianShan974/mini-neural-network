@@ -1,4 +1,8 @@
-use crate::{Matrix, Number, layers::loss_layer::LossLayer, multilayer_network::MultiLayerNetwork};
+use crate::{
+    Matrix, Number,
+    layers::{layer::Layer, loss_layer::LossLayer},
+    multilayer_network::MultiLayerNetwork,
+};
 
 pub struct Trainer {
     network: MultiLayerNetwork,
@@ -32,8 +36,16 @@ impl Trainer {
         unimplemented!()
     }
 
-    pub fn eval_loss(&mut self, input_dataset: Matrix, output_dataset: Matrix) -> Matrix {
-        unimplemented!()
+    pub fn eval_loss(&mut self, input_dataset: Matrix, output_dataset: Matrix) -> Number {
+        assert_eq!(
+            input_dataset.shape()[0],
+            output_dataset.shape()[0],
+            "The shapes must match!"
+        );
+
+        let pred = self.network.forward(input_dataset);
+
+        self.loss_layer.forward(pred, output_dataset)
     }
 
     fn shuffle(&mut self, input_dataset: Matrix, output_dataset: Matrix) -> (Matrix, Matrix) {
