@@ -1,5 +1,6 @@
 use ndarray::{Array, Axis, stack};
 use ndarray_rand::{RandomExt, rand_distr::Uniform};
+use ndarray_stats::QuantileExt;
 
 use std::{cmp::Ordering, iter::repeat_n};
 
@@ -45,19 +46,9 @@ pub fn repeat(x: &Vector, n: usize) -> Matrix {
 }
 
 pub fn min_in_matrix(dataset: &Matrix) -> Vector {
-    dataset.map_axis(Axis(0), |view| {
-        *view
-            .iter()
-            .min_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::Equal))
-            .unwrap()
-    })
+    dataset.map_axis(Axis(0), |view| *view.min().unwrap())
 }
 
 pub fn max_in_matrix(dataset: &Matrix) -> Vector {
-    dataset.map_axis(Axis(0), |view| {
-        *view
-            .iter()
-            .max_by(|a, b| a.partial_cmp(b).unwrap_or(Ordering::Equal))
-            .unwrap()
-    })
+    dataset.map_axis(Axis(0), |view| *view.max().unwrap())
 }
