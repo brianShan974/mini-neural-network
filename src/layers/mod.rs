@@ -1,12 +1,14 @@
-mod layer;
+pub mod layer;
 
-mod linear_layer;
+pub mod linear_layer;
 
-mod identity_layer;
-mod relu_layer;
-mod sigmoid_layer;
+pub mod activation_layer;
 
-mod loss_layer;
+pub mod identity_layer;
+pub mod relu_layer;
+pub mod sigmoid_layer;
 
-mod cross_entropy_loss_layer;
-mod mse_loss_layer;
+pub mod loss_layer;
+
+pub mod cross_entropy_loss_layer;
+pub mod mse_loss_layer;
