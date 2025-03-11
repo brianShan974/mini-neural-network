@@ -1,14 +1,14 @@
-use crate::{Number, Vector, activation_functions::softmax};
+use crate::{Matrix, Number, activation_functions::softmax};
 
 use super::loss_layer::LossLayer;
 
 /// Computes the softmax followed by the negative log-likelihood loss.
 pub struct CrossEntropyLossLayer {
-    prob_target_cache: Option<(Vector, Vector)>,
+    prob_target_cache: Option<(Matrix, Matrix)>,
 }
 
 impl LossLayer for CrossEntropyLossLayer {
-    fn forward(&mut self, pred: Vector, target: Vector) -> Number {
+    fn forward(&mut self, pred: Matrix, target: Matrix) -> Number {
         let n_obs = target.len();
         let prob = softmax(pred);
         let result =
@@ -19,7 +19,7 @@ impl LossLayer for CrossEntropyLossLayer {
         result
     }
 
-    fn backward(&self) -> Vector {
+    fn backward(&self) -> Matrix {
         let (prob, target) = self
             .prob_target_cache
             .as_ref()

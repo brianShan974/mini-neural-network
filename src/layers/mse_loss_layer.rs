@@ -1,16 +1,16 @@
 use crate::{
-    Number, Vector,
+    Matrix, Number,
     loss_functions::{mse, mse_derivative},
 };
 
 use super::loss_layer::LossLayer;
 
 pub struct MSELossLayer {
-    pred_target_cache: Option<(Vector, Vector)>,
+    pred_target_cache: Option<(Matrix, Matrix)>,
 }
 
 impl LossLayer for MSELossLayer {
-    fn forward(&mut self, pred: Vector, target: Vector) -> Number {
+    fn forward(&mut self, pred: Matrix, target: Matrix) -> Number {
         let result = mse(&pred, &target);
 
         self.pred_target_cache = Some((pred, target));
@@ -18,7 +18,7 @@ impl LossLayer for MSELossLayer {
         result
     }
 
-    fn backward(&self) -> Vector {
+    fn backward(&self) -> Matrix {
         let (pred, target) = self
             .pred_target_cache
             .as_ref()

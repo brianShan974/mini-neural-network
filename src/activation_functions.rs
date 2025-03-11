@@ -23,7 +23,7 @@ pub fn relu_derivative(mut x: Matrix) -> Matrix {
     x
 }
 
-pub fn softmax(mut x: Vector) -> Vector {
+pub fn softmax(mut x: Matrix) -> Matrix {
     x.par_mapv_inplace(Number::exp);
     let sum = x.sum();
 
