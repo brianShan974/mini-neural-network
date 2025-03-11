@@ -124,8 +124,8 @@ impl<'a> Trainer<'a> {
         indices.shuffle(&mut rng());
 
         (
-            input_dataset.select(Axis(1), &indices),
-            target_dataset.select(Axis(1), &indices),
+            input_dataset.select(Axis(0), &indices),
+            target_dataset.select(Axis(0), &indices),
         )
     }
 }

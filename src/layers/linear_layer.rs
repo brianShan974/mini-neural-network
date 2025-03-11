@@ -51,7 +51,7 @@ impl Layer for LinearLayer {
         let batch_size = grad_z.nrows();
 
         self.grad_w_cache = self.input_cache.clone().map(|ic: _| ic.t().dot(&grad_z));
-        self.grad_b_cache = Some(Array::ones((batch_size, 1)).dot(&grad_z));
+        self.grad_b_cache = Some(Array::ones((1, batch_size)).dot(&grad_z));
 
         grad_z.dot(&self.weights.t())
     }
