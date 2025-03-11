@@ -54,9 +54,9 @@ pub fn max_in_matrix(dataset: &Matrix) -> Vector {
 }
 
 pub fn argmin_in_matrix(dataset: &Matrix) -> Array1<usize> {
-    dataset.map_axis(Axis(0), |view| view.argmin().unwrap())
+    dataset.map_axis(Axis(1), |view| view.argmin().unwrap())
 }
 
 pub fn argmax_in_matrix(dataset: &Matrix) -> Array1<usize> {
-    dataset.map_axis(Axis(0), |view| view.argmax().unwrap())
+    dataset.map_axis(Axis(1), |view| view.argmax().unwrap())
 }
