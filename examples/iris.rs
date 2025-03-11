@@ -15,7 +15,8 @@ use ndarray_stats::QuantileExt;
 
 const VERBOSE: bool = true;
 
-const LEARNING_RATE: Number = 0.01;
+const LEARNING_RATE: Number = 0.001;
+const EPOCHS: usize = 1000;
 
 const N_FEATURES: usize = 7;
 #[allow(clippy::excessive_precision)]
@@ -1402,7 +1403,7 @@ fn main() {
         &mut network,
         Box::new(MSELossLayer::default()),
         8,
-        1000,
+        EPOCHS,
         LEARNING_RATE,
         true,
     );
@@ -1424,17 +1425,11 @@ fn main() {
 
     let total = preds.len();
     let accuracy = (0..total)
-        .map(|i| {
-            if preds[i] == targets[i] {
-                1.0 as Number
-            } else {
-                0.0 as Number
-            }
-        })
+        .map(|i| if preds[i] == targets[i] { 1.0 } else { 0.0 })
         .sum::<Number>()
         / total as Number;
 
     println!("Predictions: {preds}");
     println!("Targets: {targets}");
-    println!("Accuracy: {accuracy}");
+    println!("Accuracy: {:.5}%", accuracy * 100.0);
 }
