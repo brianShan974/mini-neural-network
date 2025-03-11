@@ -1,5 +1,6 @@
 use crate::{
     Matrix, Vector,
+    utils::{max_in_matrix, min_in_matrix},
 };
 
 pub struct Preprocessor {
@@ -10,8 +11,8 @@ pub struct Preprocessor {
 impl Preprocessor {
     pub fn new(dataset: Matrix) -> Self {
         Self {
-            min: unimplemented!(),
-            max: unimplemented!(),
+            min: min_in_matrix(&dataset),
+            max: max_in_matrix(&dataset),
         }
     }
 
