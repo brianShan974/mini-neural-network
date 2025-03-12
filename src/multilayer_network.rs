@@ -19,6 +19,8 @@ impl MultiLayerNetwork {
 
         let mut layers: Vec<Box<dyn Layer>> = Vec::new();
 
+        activations.reverse();
+
         for &neuron in neurons {
             let next_layer = LinearLayer::new(current_input_dim, neuron, None);
             layers.push(Box::new(next_layer));
