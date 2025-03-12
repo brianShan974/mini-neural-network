@@ -69,7 +69,7 @@ impl<'a> Trainer<'a> {
                 self.network.update_parameters(self.learning_rate);
 
                 if verbose {
-                    println!("Epoch: {e}, batch: {batch}, current loss: {loss}");
+                    println!("Epoch: {}, batch: {batch}, current loss: {loss}", e + 1);
                 }
 
                 input_remaining = input_next;
