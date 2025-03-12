@@ -23,6 +23,7 @@ const N_SAMPLES: usize = 150;
 const N_FEATURES: usize = N_INPUT_FEATURES + N_OUTPUT_FEATURES;
 const N_INPUT_FEATURES: usize = 4;
 const N_OUTPUT_FEATURES: usize = 3;
+const TRAIN_SIZE: usize = N_SAMPLES * 4 / 5;
 
 fn main() {
     let input_dim = N_INPUT_FEATURES;
@@ -43,12 +44,9 @@ fn main() {
         .unwrap();
     let dataset: Matrix = reader.deserialize_array2((N_SAMPLES, N_FEATURES)).unwrap();
 
-    let n = dataset.nrows();
-    let train_size = n * 4 / 5; // 0.8n
+    let dataset = dataset.sample_axis(Axis(0), N_SAMPLES, SamplingStrategy::WithoutReplacement);
 
-    let dataset = dataset.sample_axis(Axis(0), n, SamplingStrategy::WithoutReplacement);
-
-    let (train, test) = dataset.view().split_at(Axis(0), train_size);
+    let (train, test) = dataset.view().split_at(Axis(0), TRAIN_SIZE);
 
     let (x_train, y_train) = train.split_at(Axis(1), 4);
     let (x_test, y_test) = test.split_at(Axis(1), 4);
