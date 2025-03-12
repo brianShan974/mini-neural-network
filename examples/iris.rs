@@ -14,7 +14,7 @@ use ndarray_rand::{RandomExt, SamplingStrategy};
 
 const VERBOSE: bool = true;
 
-const LEARNING_RATE: Number = 0.001;
+const LEARNING_RATE: Number = 0.01;
 const EPOCHS: usize = 1000;
 
 const N_FEATURES: usize = 7;
