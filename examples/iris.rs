@@ -33,7 +33,6 @@ fn main() {
         ActivationLayer::ReLU(ReluLayer::default()),
         ActivationLayer::Identity(IdentityLayer),
     ];
-
     let mut network = MultiLayerNetwork::new(input_dim, &neurons, activations);
 
     let file = File::open(format!(
