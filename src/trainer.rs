@@ -75,11 +75,12 @@ impl<'a> Trainer<'a> {
 
                 batch += 1;
 
-                if input_remaining.nrows() > self.batch_size {
+                let remaining_rows = input_remaining.nrows();
+                if remaining_rows > self.batch_size {
                     continue;
                 } else {
-                    let (input_current, _) = input_remaining.split_at(Axis(0), self.batch_size);
-                    let (target_current, _) = target_remaining.split_at(Axis(0), self.batch_size);
+                    let (input_current, _) = input_remaining.split_at(Axis(0), remaining_rows);
+                    let (target_current, _) = target_remaining.split_at(Axis(0), remaining_rows);
 
                     let pred_batch = self.network.forward(input_current.to_owned());
                     let loss = self
