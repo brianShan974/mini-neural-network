@@ -2,7 +2,7 @@ use ndarray::{Array, Array1, Axis, stack};
 use ndarray_rand::{RandomExt, rand_distr::Uniform};
 use ndarray_stats::QuantileExt;
 
-use std::{cmp::Ordering, iter::repeat_n};
+use std::iter::repeat_n;
 
 use crate::{Matrix, Number, Vector};
 

@@ -1,5 +1,5 @@
 use crate::{
-    Matrix, Number, Vector,
+    Matrix, Number,
     utils::{relu_derivative_single, relu_single, sigmoid_derivative_single, sigmoid_single},
 };
 
