@@ -1,5 +1,3 @@
-use std::fs::File;
-
 use csv::ReaderBuilder;
 use mini_neural_network::{
     Matrix, Number,
@@ -35,15 +33,14 @@ fn main() {
     ];
     let mut network = MultiLayerNetwork::new(input_dim, &neurons, activations);
 
-    let file = File::open(format!(
-        "{}/example_data/iris.dat",
-        env!("CARGO_MANIFEST_DIR")
-    ))
-    .unwrap();
     let mut reader = ReaderBuilder::new()
         .has_headers(false)
         .delimiter(b' ')
-        .from_reader(file);
+        .from_path(format!(
+            "{}/example_data/iris.dat",
+            env!("CARGO_MANIFEST_DIR")
+        ))
+        .unwrap();
     let dataset: Matrix = reader.deserialize_array2((N_SAMPLES, N_FEATURES)).unwrap();
 
     let n = dataset.nrows();
