@@ -35,20 +35,18 @@ impl<'a> Trainer<'a> {
         }
     }
 
-    pub fn train(&mut self, input_dataset: Matrix, target_dataset: Matrix, verbose: bool) {
+    pub fn train(&mut self, mut input_dataset: Matrix, mut target_dataset: Matrix, verbose: bool) {
         assert_eq!(
             input_dataset.nrows(),
             target_dataset.nrows(),
             "They must have the same amount of samples!"
         );
 
-        let (input_dataset, target_dataset) = if self.shuffle_flag {
-            Self::shuffle(input_dataset, target_dataset)
-        } else {
-            (input_dataset, target_dataset)
-        };
-
         for e in 0..self.n_epoch {
+            if self.shuffle_flag {
+                Self::shuffle(&mut input_dataset, &mut target_dataset)
+            }
+
             let mut input_remaining = input_dataset.view();
             let mut target_remaining = target_dataset.view();
 
@@ -113,7 +111,7 @@ impl<'a> Trainer<'a> {
         self.loss_layer.forward(pred, target_dataset)
     }
 
-    fn shuffle(input_dataset: Matrix, target_dataset: Matrix) -> (Matrix, Matrix) {
+    fn shuffle(input_dataset: &mut Matrix, target_dataset: &mut Matrix) {
         assert_eq!(
             input_dataset.nrows(),
             target_dataset.nrows(),
@@ -123,9 +121,7 @@ impl<'a> Trainer<'a> {
         let mut indices: Vec<usize> = (0..input_dataset.nrows()).collect();
         indices.shuffle(&mut rng());
 
-        (
-            input_dataset.select(Axis(0), &indices),
-            target_dataset.select(Axis(0), &indices),
-        )
+        *input_dataset = input_dataset.select(Axis(0), &indices);
+        *target_dataset = target_dataset.select(Axis(0), &indices);
     }
 }
