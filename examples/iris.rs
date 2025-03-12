@@ -48,8 +48,8 @@ fn main() {
 
     let (train, test) = dataset.view().split_at(Axis(0), TRAIN_SIZE);
 
-    let (x_train, y_train) = train.split_at(Axis(1), 4);
-    let (x_test, y_test) = test.split_at(Axis(1), 4);
+    let (x_train, y_train) = train.split_at(Axis(1), N_INPUT_FEATURES);
+    let (x_test, y_test) = test.split_at(Axis(1), N_INPUT_FEATURES);
 
     let prep = Preprocessor::new(x_train.to_owned());
 
