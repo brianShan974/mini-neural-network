@@ -19,12 +19,12 @@ impl LossLayer for MSELossLayer {
         result
     }
 
-    fn backward(&self) -> Matrix {
+    fn backward(&mut self) -> Matrix {
         let (pred, target) = self
             .pred_target_cache
-            .as_ref()
+            .take()
             .expect("You have to call forward before calling backward!");
 
-        mse_derivative(pred, target)
+        mse_derivative(&pred, &target)
     }
 }

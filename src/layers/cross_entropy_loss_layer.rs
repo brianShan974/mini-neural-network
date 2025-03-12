@@ -20,10 +20,10 @@ impl LossLayer for CrossEntropyLossLayer {
         result
     }
 
-    fn backward(&self) -> Matrix {
+    fn backward(&mut self) -> Matrix {
         let (prob, target) = self
             .prob_target_cache
-            .as_ref()
+            .take()
             .expect("You have to call forward before calling backward!");
         let n_obs = target.len();
 
