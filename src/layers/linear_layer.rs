@@ -8,8 +8,6 @@ use crate::{
 use super::layer::Layer;
 
 pub struct LinearLayer {
-    input_size: usize,
-    output_size: usize,
     weights: Matrix,
     bias: Vector,
     grad_w_cache: Option<Matrix>,
@@ -26,8 +24,6 @@ impl LinearLayer {
         };
 
         Self {
-            input_size,
-            output_size,
             weights: xavier_init_matrix((input_size, output_size), gain),
             bias: xavier_init(output_size, gain),
             grad_w_cache: None,
