@@ -11,7 +11,6 @@ use mini_neural_network::{
 };
 use ndarray::{Axis, arr2};
 use ndarray_rand::{RandomExt, SamplingStrategy};
-use ndarray_stats::QuantileExt;
 
 const VERBOSE: bool = true;
 
