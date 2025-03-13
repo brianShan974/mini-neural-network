@@ -19,13 +19,15 @@ pub struct Regressor<'a> {
 
 impl<'a> Regressor<'a> {
     pub fn new(
+        x: DataFrame,
+        y: DataFrame,
         network: &'a mut MultiLayerNetwork,
         loss_layer: Box<dyn LossLayer>,
         batch_size: usize,
         n_epoch: usize,
         learning_rate: Number,
     ) -> Self {
-        Self {
+        let mut new_regressor = Self {
             network,
             loss_layer,
             batch_size,
@@ -33,10 +35,14 @@ impl<'a> Regressor<'a> {
             learning_rate,
             x_preprocessor: None,
             y_preprocessor: None,
-        }
+        };
+
+        new_regressor.preprocess_training(x, y);
+
+        new_regressor
     }
 
-    pub fn fit(&mut self, x_train: DataFrame, y_train: DataFrame, shuffle: bool) {
+    pub fn fit(&mut self, x: DataFrame, y: DataFrame, shuffle: bool) {
         unimplemented!()
     }
 
