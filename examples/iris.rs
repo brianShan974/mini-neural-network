@@ -67,16 +67,17 @@ fn main() {
     );
 
     trainer.train(x_train_preped.clone(), y_train.to_owned(), VERBOSE);
+
     println!(
         "Train loss: {}",
-        trainer.eval_loss(x_train_preped, y_train.to_owned())
+        trainer.eval_loss_only(x_train_preped, y_train.to_owned())
     );
     println!(
         "Validation loss: {}",
-        trainer.eval_loss(x_test_preped.clone(), y_test.to_owned())
+        trainer.eval_loss_only(x_test_preped.clone(), y_test.to_owned())
     );
 
-    let preds = argmax_in_matrix(network.forward(x_test_preped).view())
+    let preds = argmax_in_matrix(network.eval_only(x_test_preped).view())
         .into_dyn()
         .squeeze();
     let targets = argmax_in_matrix(y_test).into_dyn().squeeze();
