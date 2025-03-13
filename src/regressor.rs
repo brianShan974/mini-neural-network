@@ -18,6 +18,7 @@ pub struct Regressor<'a> {
     learning_rate: Number,
     x_preprocessor: Option<Preprocessor>,
     y_preprocessor: Option<Preprocessor>,
+    str_cols: Vec<&'a str>,
 }
 
 impl<'a> Regressor<'a> {
@@ -36,15 +37,17 @@ impl<'a> Regressor<'a> {
             learning_rate,
             x_preprocessor: None,
             y_preprocessor: None,
+            str_cols: Vec::new(),
         }
     }
 
-    pub fn init_preprocessor(&mut self, x: DataFrame, y: DataFrame, str_cols: Vec<&str>) {
-        self.preprocess_training(x, y, str_cols);
+    pub fn init_preprocessor(&mut self, x: DataFrame, y: DataFrame, str_cols: Vec<&'a str>) {
+        self.str_cols = str_cols;
+        self.preprocess_training(x, y);
     }
 
     pub fn fit(&mut self, x: DataFrame, y: DataFrame, shuffle: bool) {
-        unimplemented!()
+        let (x, y) = self.preprocess_training(x, y);
     }
 
     pub fn predict(&mut self, x: DataFrame) -> Matrix {
@@ -59,12 +62,8 @@ impl<'a> Regressor<'a> {
         unimplemented!()
     }
 
-    fn preprocess_training(
-        &mut self,
-        x: DataFrame,
-        y: DataFrame,
-        str_cols: Vec<&str>,
-    ) -> (Matrix, Matrix) {
+    fn preprocess_training(&mut self, x: DataFrame, y: DataFrame) -> (Matrix, Matrix) {
+        let str_cols = self.str_cols.clone();
         let result_x = self.preprocess_x_training(x, str_cols);
         let result_y = self.preprocess_y_training(y);
 
