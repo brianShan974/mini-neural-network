@@ -67,10 +67,10 @@ impl<'a> Regressor<'a> {
     }
 
     fn forward(&mut self, x: Matrix) -> Matrix {
-        unimplemented!()
+        self.network.forward(x)
     }
 
     fn eval_only(&self, x: Matrix) -> Matrix {
-        unimplemented!()
+        self.network.eval_only(x)
     }
 }
