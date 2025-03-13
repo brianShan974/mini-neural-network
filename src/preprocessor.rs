@@ -1,5 +1,5 @@
 use crate::{
-    Matrix, Vector,
+    Matrix, MatrixView, Vector,
     utils::{max_in_matrix, min_in_matrix, repeat},
 };
 
@@ -10,7 +10,7 @@ pub struct Preprocessor {
 }
 
 impl Preprocessor {
-    pub fn new(dataset: &Matrix) -> Self {
+    pub fn new(dataset: MatrixView) -> Self {
         Self {
             min: Some(min_in_matrix(dataset)),
             max: Some(max_in_matrix(dataset)),
@@ -23,13 +23,15 @@ impl Preprocessor {
         let min_matrix = repeat(
             self.min
                 .as_ref()
-                .expect("You must initialise the preprocessor first!"),
+                .expect("You must initialise the preprocessor first!")
+                .view(),
             n,
         );
         let max_matrix = repeat(
             self.max
                 .as_ref()
-                .expect("You must initialise the preprocessor first!"),
+                .expect("You must initialise the preprocessor first!")
+                .view(),
             n,
         );
 
@@ -42,13 +44,15 @@ impl Preprocessor {
         let min_matrix = repeat(
             self.min
                 .as_ref()
-                .expect("You must initialise the preprocessor first!"),
+                .expect("You must initialise the preprocessor first!")
+                .view(),
             n,
         );
         let max_matrix = repeat(
             self.max
                 .as_ref()
-                .expect("You must initialise the preprocessor first!"),
+                .expect("You must initialise the preprocessor first!")
+                .view(),
             n,
         );
 

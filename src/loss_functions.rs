@@ -1,10 +1,10 @@
-use crate::{Matrix, Number};
+use crate::{Matrix, MatrixView, Number};
 
-pub fn mse(pred: &Matrix, target: &Matrix) -> Number {
-    let err = pred - target;
+pub fn mse(pred: MatrixView, target: MatrixView) -> Number {
+    let err = pred.to_owned() - target;
     err.mapv(|i| i.powi(2)).mean().unwrap()
 }
 
-pub fn mse_derivative(pred: &Matrix, target: &Matrix) -> Matrix {
-    2.0 as Number * (pred - target) / pred.ndim() as Number
+pub fn mse_derivative(pred: MatrixView, target: MatrixView) -> Matrix {
+    2.0 as Number * (pred.to_owned() - target) / pred.ndim() as Number
 }

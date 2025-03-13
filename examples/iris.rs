@@ -51,7 +51,7 @@ fn main() {
     let (x_train, y_train) = train.split_at(Axis(1), N_INPUT_FEATURES);
     let (x_test, y_test) = test.split_at(Axis(1), N_INPUT_FEATURES);
 
-    let prep = Preprocessor::new(&x_train.to_owned());
+    let prep = Preprocessor::new(x_train);
 
     let x_train_preped = prep.apply(x_train.to_owned());
     let x_test_preped = prep.apply(x_test.to_owned());
@@ -75,10 +75,10 @@ fn main() {
         trainer.eval_loss(x_test_preped.clone(), y_test.to_owned())
     );
 
-    let preds = argmax_in_matrix(&network.forward(x_test_preped))
+    let preds = argmax_in_matrix(network.forward(x_test_preped).view())
         .into_dyn()
         .squeeze();
-    let targets = argmax_in_matrix(&y_test.to_owned()).into_dyn().squeeze();
+    let targets = argmax_in_matrix(y_test).into_dyn().squeeze();
 
     let total = preds.len();
     let accuracy = (0..total)

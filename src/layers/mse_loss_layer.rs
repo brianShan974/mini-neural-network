@@ -12,7 +12,7 @@ pub struct MSELossLayer {
 
 impl LossLayer for MSELossLayer {
     fn forward(&mut self, pred: Matrix, target: Matrix) -> Number {
-        let result = mse(&pred, &target);
+        let result = mse(pred.view(), target.view());
 
         self.pred_target_cache = Some((pred, target));
 
@@ -25,6 +25,6 @@ impl LossLayer for MSELossLayer {
             .take()
             .expect("You have to call forward before calling backward!");
 
-        mse_derivative(&pred, &target)
+        mse_derivative(pred.view(), target.view())
     }
 }

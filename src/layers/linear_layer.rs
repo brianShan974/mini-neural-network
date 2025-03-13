@@ -38,7 +38,7 @@ impl Layer for LinearLayer {
         self.input_cache = Some(x.clone());
 
         let batch_size = x.nrows();
-        let bias = repeat(&self.bias, batch_size);
+        let bias = repeat(self.bias.view(), batch_size);
 
         x.dot(&self.weights) + bias
     }
