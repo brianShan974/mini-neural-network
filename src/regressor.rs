@@ -62,8 +62,13 @@ impl<'a> Regressor<'a> {
             .apply(y)
     }
 
-    pub fn score(&self, x: DataFrame, y: DataFrame) -> Number {
-        unimplemented!()
+    pub fn eval_loss(&self, x: DataFrame, y: DataFrame) -> Number {
+        let pred = self.predict(x);
+        self.trainer.eval_loss_only(
+            pred,
+            y.to_ndarray::<NumberType>(IndexOrder::Fortran)
+                .expect("Unable to convert y to ndarray in eval_loss!"),
+        )
     }
 
     fn preprocess_training(&mut self, x: DataFrame, y: DataFrame) -> (Matrix, Matrix) {
