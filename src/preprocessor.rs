@@ -21,15 +21,13 @@ impl Preprocessor {
         let n = dataset.nrows();
 
         let min_matrix = repeat(
-            &self
-                .min
+            self.min
                 .as_ref()
                 .expect("You must initialise the preprocessor first!"),
             n,
         );
         let max_matrix = repeat(
-            &self
-                .max
+            self.max
                 .as_ref()
                 .expect("You must initialise the preprocessor first!"),
             n,
@@ -42,15 +40,13 @@ impl Preprocessor {
         let n = dataset.nrows();
 
         let min_matrix = repeat(
-            &self
-                .min
+            self.min
                 .as_ref()
                 .expect("You must initialise the preprocessor first!"),
             n,
         );
         let max_matrix = repeat(
-            &self
-                .max
+            self.max
                 .as_ref()
                 .expect("You must initialise the preprocessor first!"),
             n,
