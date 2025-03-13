@@ -27,4 +27,8 @@ impl LossLayer for MSELossLayer {
 
         mse_derivative(pred.view(), target.view())
     }
+
+    fn eval_only(&self, pred: Matrix, target: Matrix) -> Number {
+        mse(pred.view(), target.view())
+    }
 }

@@ -6,4 +6,6 @@ pub trait Layer {
     fn backward(&mut self, grad_z: Matrix) -> Matrix;
 
     fn update_parameters(&mut self, _learning_rate: Number) {}
+
+    fn eval_only(&self, x: Matrix) -> Matrix;
 }

@@ -112,6 +112,18 @@ impl<'a> Trainer<'a> {
         self.loss_layer.forward(pred, target_dataset)
     }
 
+    pub fn eval_loss_only(&self, input_dataset: Matrix, target_dataset: Matrix) -> Number {
+        assert_eq!(
+            input_dataset.nrows(),
+            target_dataset.nrows(),
+            "They must have the same amount of samples!"
+        );
+
+        let pred = self.network.eval_only(input_dataset);
+
+        self.loss_layer.eval_only(pred, target_dataset)
+    }
+
     fn shuffle(input_dataset: &mut Matrix, target_dataset: &mut Matrix) {
         assert_eq!(
             input_dataset.nrows(),

@@ -37,10 +37,7 @@ impl Layer for LinearLayer {
     fn forward(&mut self, x: Matrix) -> Matrix {
         self.input_cache = Some(x.clone());
 
-        let batch_size = x.nrows();
-        let bias = repeat(self.bias.view(), batch_size);
-
-        x.dot(&self.weights) + bias
+        self.eval_only(x)
     }
 
     fn backward(&mut self, grad_z: Matrix) -> Matrix {
@@ -62,5 +59,12 @@ impl Layer for LinearLayer {
                 .slice(s![0, ..])
                 .to_owned()
                 * learning_rate;
+    }
+
+    fn eval_only(&self, x: Matrix) -> Matrix {
+        let batch_size = x.nrows();
+        let bias = repeat(self.bias.view(), batch_size);
+
+        x.dot(&self.weights) + bias
     }
 }

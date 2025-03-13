@@ -75,4 +75,16 @@ impl Layer for MultiLayerNetwork {
             layer.update_parameters(learning_rate);
         }
     }
+
+    fn eval_only(&self, x: Matrix) -> Matrix {
+        let num_layers = self.layers.len();
+
+        let mut temp = x;
+        for i in 0..num_layers {
+            temp = self.layers[i].eval_only(temp);
+            temp = self.activation_layers[i].eval_only(temp);
+        }
+
+        temp
+    }
 }

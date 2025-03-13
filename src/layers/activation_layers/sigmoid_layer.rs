@@ -14,11 +14,15 @@ pub struct SigmoidLayer {
 impl Layer for SigmoidLayer {
     fn forward(&mut self, x: Matrix) -> Matrix {
         self.cache = Some(sigmoid_derivative(x.clone()));
-        sigmoid(x)
+        self.eval_only(x)
     }
 
     fn backward(&mut self, grad_z: Matrix) -> Matrix {
         self.cache.clone().unwrap() * grad_z
+    }
+
+    fn eval_only(&self, x: Matrix) -> Matrix {
+        sigmoid(x)
     }
 }
 
