@@ -52,12 +52,14 @@ impl<'a> Regressor<'a> {
         self.trainer.train(x, y, shuffle, verbose);
     }
 
-    pub fn predict(&mut self, x: DataFrame) -> Matrix {
-        unimplemented!()
-    }
+    pub fn predict(&self, x: DataFrame) -> Matrix {
+        let x = self.preprocess_x_non_training(x, self.str_cols.clone());
+        let y = self.trainer.predict(x);
 
-    pub fn predict_only(&self, x: DataFrame) -> Matrix {
-        unimplemented!()
+        self.y_preprocessor
+            .as_ref()
+            .expect("You must initialise the preprocessor before calling predict!")
+            .apply(y)
     }
 
     pub fn score(&self, x: DataFrame, y: DataFrame) -> Number {
@@ -72,13 +74,16 @@ impl<'a> Regressor<'a> {
         (result_x, result_y)
     }
 
-    fn preprocess_non_training(
+    fn _preprocess_non_training(
         &self,
         x: DataFrame,
         y: DataFrame,
         str_cols: Vec<&str>,
     ) -> (Matrix, Matrix) {
-        unimplemented!()
+        (
+            self.preprocess_x_non_training(x, str_cols),
+            self._preprocess_y_non_training(y),
+        )
     }
 
     fn preprocess_x_training(&mut self, x: DataFrame, str_cols: Vec<&str>) -> Matrix {
@@ -105,5 +110,37 @@ impl<'a> Regressor<'a> {
         self.y_preprocessor = Some(Preprocessor::new(result.view()));
 
         self.y_preprocessor.as_ref().unwrap().apply(result)
+    }
+
+    fn preprocess_x_non_training(&self, x: DataFrame, str_cols: Vec<&str>) -> Matrix {
+        let x = x
+            .columns_to_dummies(str_cols, None, true)
+            .expect("Unable to one-hot label the columns for x!")
+            .fill_null(FillNullStrategy::Mean)
+            .expect("Unable to fill null for x!");
+
+        let result = x
+            .to_ndarray::<NumberType>(IndexOrder::Fortran)
+            .expect("Unable to convert x to ndarray!");
+
+        self.x_preprocessor
+            .as_ref()
+            .expect(
+                "You must initialise the preprocessor before calling preprocess_x_non_training!",
+            )
+            .apply(result)
+    }
+
+    fn _preprocess_y_non_training(&self, y: DataFrame) -> Matrix {
+        let result = y
+            .to_ndarray::<NumberType>(IndexOrder::Fortran)
+            .expect("Unable to convert y to ndarray!");
+
+        self.y_preprocessor
+            .as_ref()
+            .expect(
+                "You must initialise the preprocessor before calling preprocess_y_non_training!",
+            )
+            .apply(result)
     }
 }
