@@ -46,7 +46,7 @@ impl<'a> Regressor<'a> {
         let pred = self.predict(x);
         self.trainer.eval_loss_only(
             pred,
-            y.to_ndarray::<NumberType>(IndexOrder::Fortran)
+            y.to_ndarray::<NumberType>(IndexOrder::C)
                 .expect("Unable to convert y to ndarray in Regressor::eval_loss!"),
         )
     }
@@ -81,7 +81,7 @@ impl<'a> Regressor<'a> {
             .expect("Unable to fill null for x in Regressor::preprocess_x_training!");
 
         let result = x
-            .to_ndarray::<NumberType>(IndexOrder::Fortran)
+            .to_ndarray::<NumberType>(IndexOrder::C)
             .expect("Unable to convert x to ndarray in Regressor::preprocess_x_training!");
 
         self.x_preprocessor = Some(Preprocessor::new(result.view()));
@@ -91,7 +91,7 @@ impl<'a> Regressor<'a> {
 
     fn preprocess_y_training(&mut self, y: DataFrame) -> Matrix {
         let result = y
-            .to_ndarray::<NumberType>(IndexOrder::Fortran)
+            .to_ndarray::<NumberType>(IndexOrder::C)
             .expect("Unable to convert y to ndarray in Regressor::preprocess_y_training!");
 
         self.y_preprocessor = Some(Preprocessor::new(result.view()));
@@ -107,7 +107,7 @@ impl<'a> Regressor<'a> {
             .expect("Unable to fill null for x in Regressor::preprocess_x_non_training!");
 
         let result = x
-            .to_ndarray::<NumberType>(IndexOrder::Fortran)
+            .to_ndarray::<NumberType>(IndexOrder::C)
             .expect("Unable to convert x to ndarray in Regressor::preprocess_x_non_training!");
 
         self.x_preprocessor
@@ -120,7 +120,7 @@ impl<'a> Regressor<'a> {
 
     fn _preprocess_y_non_training(&self, y: DataFrame) -> Matrix {
         let result = y
-            .to_ndarray::<NumberType>(IndexOrder::Fortran)
+            .to_ndarray::<NumberType>(IndexOrder::C)
             .expect("Unable to convert y to ndarray in Regressor::_preprocess_y_non_training!");
 
         self.y_preprocessor
