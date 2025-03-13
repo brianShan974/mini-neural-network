@@ -4,7 +4,9 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-ndarray = { version = "0.16.1", features = ["rayon"] }
+blas = "0.23.0"
+blas-src = { version = "0.11.1", features = ["accelerate"] }
+ndarray = { version = "0.16.1", features = ["blas", "rayon"] }
 ndarray-rand = "0.15.0"
 ndarray-stats = "0.6.0"
 rand = "0.9.0"
