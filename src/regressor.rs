@@ -3,13 +3,7 @@ use polars::{
     prelude::{DataFrameOps, FillNullStrategy, IndexOrder},
 };
 
-use crate::{
-    Matrix, Number, NumberType,
-    layers::{layer::Layer, loss_layers::loss_layer::LossLayer},
-    multilayer_network::MultiLayerNetwork,
-    preprocessor::Preprocessor,
-    trainer::Trainer,
-};
+use crate::{Matrix, Number, NumberType, preprocessor::Preprocessor, trainer::Trainer};
 
 pub struct Regressor<'a> {
     trainer: Trainer<'a>,
