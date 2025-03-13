@@ -40,9 +40,9 @@ impl<'a> Regressor<'a> {
     }
 
     pub fn eval_loss(&self, x: DataFrame, y: DataFrame) -> Number {
-        let pred = self.predict(x);
         self.trainer.eval_loss_only(
-            pred,
+            x.to_ndarray::<NumberType>(IndexOrder::C)
+                .expect("Unable to convert x to ndarray in Regressor::eval_loss!"),
             y.to_ndarray::<NumberType>(IndexOrder::C)
                 .expect("Unable to convert y to ndarray in Regressor::eval_loss!"),
         )
