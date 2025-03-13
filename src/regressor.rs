@@ -21,6 +21,7 @@ impl<'a> Regressor<'a> {
     pub fn new(
         x: DataFrame,
         y: DataFrame,
+        str_cols: Vec<&str>,
         network: &'a mut MultiLayerNetwork,
         loss_layer: Box<dyn LossLayer>,
         batch_size: usize,
@@ -37,7 +38,7 @@ impl<'a> Regressor<'a> {
             y_preprocessor: None,
         };
 
-        new_regressor.preprocess_training(x, y);
+        new_regressor.preprocess_training(x, y, str_cols);
 
         new_regressor
     }
@@ -58,11 +59,21 @@ impl<'a> Regressor<'a> {
         unimplemented!()
     }
 
-    fn preprocess_training(&mut self, x: DataFrame, y: DataFrame) -> (Matrix, Matrix) {
+    fn preprocess_training(
+        &mut self,
+        x: DataFrame,
+        y: DataFrame,
+        str_cols: Vec<&str>,
+    ) -> (Matrix, Matrix) {
         unimplemented!()
     }
 
-    fn preprocess_non_training(&self, x: DataFrame, y: DataFrame) -> (Matrix, Matrix) {
+    fn preprocess_non_training(
+        &self,
+        x: DataFrame,
+        y: DataFrame,
+        str_cols: Vec<&str>,
+    ) -> (Matrix, Matrix) {
         unimplemented!()
     }
 
