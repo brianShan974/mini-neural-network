@@ -13,7 +13,6 @@ pub struct Trainer<'a> {
     batch_size: usize,
     n_epoch: usize,
     learning_rate: Number,
-    shuffle_flag: bool,
 }
 
 impl<'a> Trainer<'a> {
@@ -23,7 +22,6 @@ impl<'a> Trainer<'a> {
         batch_size: usize,
         n_epoch: usize,
         learning_rate: Number,
-        shuffle_flag: bool,
     ) -> Self {
         Self {
             network,
@@ -31,11 +29,16 @@ impl<'a> Trainer<'a> {
             batch_size,
             n_epoch,
             learning_rate,
-            shuffle_flag,
         }
     }
 
-    pub fn train(&mut self, mut input_dataset: Matrix, mut target_dataset: Matrix, verbose: bool) {
+    pub fn train(
+        &mut self,
+        mut input_dataset: Matrix,
+        mut target_dataset: Matrix,
+        shuffle: bool,
+        verbose: bool,
+    ) {
         assert_eq!(
             input_dataset.nrows(),
             target_dataset.nrows(),
@@ -43,7 +46,7 @@ impl<'a> Trainer<'a> {
         );
 
         for e in 0..self.n_epoch {
-            if self.shuffle_flag {
+            if shuffle {
                 Self::shuffle(&mut input_dataset, &mut target_dataset)
             }
 

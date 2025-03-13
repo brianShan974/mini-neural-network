@@ -8,10 +8,11 @@ use crate::{
     layers::{layer::Layer, loss_layers::loss_layer::LossLayer},
     multilayer_network::MultiLayerNetwork,
     preprocessor::Preprocessor,
+    trainer::Trainer,
 };
 
 pub struct Regressor<'a> {
-    network: &'a mut MultiLayerNetwork,
+    trainer: Trainer<'a>,
     loss_layer: Box<dyn LossLayer>,
     batch_size: usize,
     n_epoch: usize,
@@ -23,14 +24,14 @@ pub struct Regressor<'a> {
 
 impl<'a> Regressor<'a> {
     pub fn new(
-        network: &'a mut MultiLayerNetwork,
+        trainer: Trainer<'a>,
         loss_layer: Box<dyn LossLayer>,
         batch_size: usize,
         n_epoch: usize,
         learning_rate: Number,
     ) -> Self {
         Self {
-            network,
+            trainer,
             loss_layer,
             batch_size,
             n_epoch,
@@ -46,8 +47,9 @@ impl<'a> Regressor<'a> {
         self.preprocess_training(x, y);
     }
 
-    pub fn fit(&mut self, x: DataFrame, y: DataFrame, shuffle: bool) {
+    pub fn fit(&mut self, x: DataFrame, y: DataFrame, shuffle: bool, verbose: bool) {
         let (x, y) = self.preprocess_training(x, y);
+        self.trainer.train(x, y, shuffle, verbose);
     }
 
     pub fn predict(&mut self, x: DataFrame) -> Matrix {
@@ -103,13 +105,5 @@ impl<'a> Regressor<'a> {
         self.y_preprocessor = Some(Preprocessor::new(result.view()));
 
         self.y_preprocessor.as_ref().unwrap().apply(result)
-    }
-
-    fn forward(&mut self, x: Matrix) -> Matrix {
-        self.network.forward(x)
-    }
-
-    fn eval_only(&self, x: Matrix) -> Matrix {
-        self.network.eval_only(x)
     }
 }

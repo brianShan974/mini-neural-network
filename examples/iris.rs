@@ -17,10 +17,10 @@ use ndarray::Axis;
 use ndarray_csv::Array2Reader;
 use ndarray_rand::{RandomExt, SamplingStrategy};
 
-const VERBOSE: bool = true;
-
 const LEARNING_RATE: Number = 0.01;
 const EPOCHS: usize = 1000;
+const SHUFFLE: bool = true;
+const VERBOSE: bool = true;
 
 const N_SAMPLES: usize = 150;
 const N_FEATURES: usize = N_INPUT_FEATURES + N_OUTPUT_FEATURES;
@@ -63,10 +63,9 @@ fn main() {
         8,
         EPOCHS,
         LEARNING_RATE,
-        true,
     );
 
-    trainer.train(x_train_preped.clone(), y_train.to_owned(), VERBOSE);
+    trainer.train(x_train_preped.clone(), y_train.to_owned(), SHUFFLE, VERBOSE);
 
     println!(
         "Train loss: {}",
