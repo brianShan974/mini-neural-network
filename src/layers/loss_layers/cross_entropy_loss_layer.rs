@@ -24,7 +24,7 @@ impl LossLayer for CrossEntropyLossLayer {
         let (prob, target) = self
             .prob_target_cache
             .take()
-            .expect("You have to call forward before calling backward!");
+            .expect("You must call CrossEntropyLossLayer::forward before calling CrossEntropyLossLayer::backward!");
         let n_obs = target.len();
 
         -1.0 as Number / n_obs as Number * (target - prob)

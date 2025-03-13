@@ -23,7 +23,7 @@ impl LossLayer for MSELossLayer {
         let (pred, target) = self
             .pred_target_cache
             .take()
-            .expect("You have to call forward before calling backward!");
+            .expect("You must call MSELossLayer::forward before calling MSELossLayer::backward!");
 
         mse_derivative(pred.view(), target.view())
     }

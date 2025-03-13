@@ -58,7 +58,7 @@ impl<'a> Regressor<'a> {
 
         self.y_preprocessor
             .as_ref()
-            .expect("You must initialise the preprocessor before calling predict!")
+            .expect("You must initialise the preprocessor before calling Regressor::predict!")
             .apply(y)
     }
 
@@ -67,7 +67,7 @@ impl<'a> Regressor<'a> {
         self.trainer.eval_loss_only(
             pred,
             y.to_ndarray::<NumberType>(IndexOrder::Fortran)
-                .expect("Unable to convert y to ndarray in eval_loss!"),
+                .expect("Unable to convert y to ndarray in Regressor::eval_loss!"),
         )
     }
 
@@ -94,13 +94,15 @@ impl<'a> Regressor<'a> {
     fn preprocess_x_training(&mut self, x: DataFrame, str_cols: Vec<&str>) -> Matrix {
         let x = x
             .columns_to_dummies(str_cols, None, true)
-            .expect("Unable to one-hot label the columns for x!")
+            .expect(
+                "Unable to one-hot label the columns for x in Regressor::preprocess_x_training!",
+            )
             .fill_null(FillNullStrategy::Mean)
-            .expect("Unable to fill null for x!");
+            .expect("Unable to fill null for x in Regressor::preprocess_x_training!");
 
         let result = x
             .to_ndarray::<NumberType>(IndexOrder::Fortran)
-            .expect("Unable to convert x to ndarray!");
+            .expect("Unable to convert x to ndarray in Regressor::preprocess_x_training!");
 
         self.x_preprocessor = Some(Preprocessor::new(result.view()));
 
@@ -110,7 +112,7 @@ impl<'a> Regressor<'a> {
     fn preprocess_y_training(&mut self, y: DataFrame) -> Matrix {
         let result = y
             .to_ndarray::<NumberType>(IndexOrder::Fortran)
-            .expect("Unable to convert y to ndarray!");
+            .expect("Unable to convert y to ndarray in Regressor::preprocess_y_training!");
 
         self.y_preprocessor = Some(Preprocessor::new(result.view()));
 
@@ -120,18 +122,18 @@ impl<'a> Regressor<'a> {
     fn preprocess_x_non_training(&self, x: DataFrame, str_cols: Vec<&str>) -> Matrix {
         let x = x
             .columns_to_dummies(str_cols, None, true)
-            .expect("Unable to one-hot label the columns for x!")
+            .expect("Unable to one-hot label the columns for x in Regressor::preprocess_x_non_training!")
             .fill_null(FillNullStrategy::Mean)
-            .expect("Unable to fill null for x!");
+            .expect("Unable to fill null for x in Regressor::preprocess_x_non_training!");
 
         let result = x
             .to_ndarray::<NumberType>(IndexOrder::Fortran)
-            .expect("Unable to convert x to ndarray!");
+            .expect("Unable to convert x to ndarray in Regressor::preprocess_x_non_training!");
 
         self.x_preprocessor
             .as_ref()
             .expect(
-                "You must initialise the preprocessor before calling preprocess_x_non_training!",
+                "You must initialise the preprocessor before calling Regressor::preprocess_x_non_training!",
             )
             .apply(result)
     }
@@ -139,12 +141,12 @@ impl<'a> Regressor<'a> {
     fn _preprocess_y_non_training(&self, y: DataFrame) -> Matrix {
         let result = y
             .to_ndarray::<NumberType>(IndexOrder::Fortran)
-            .expect("Unable to convert y to ndarray!");
+            .expect("Unable to convert y to ndarray in Regressor::_preprocess_y_non_training!");
 
         self.y_preprocessor
             .as_ref()
             .expect(
-                "You must initialise the preprocessor before calling preprocess_y_non_training!",
+                "You must initialise the preprocessor before calling Regressor::_preprocess_y_non_training!",
             )
             .apply(result)
     }
