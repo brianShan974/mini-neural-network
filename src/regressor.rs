@@ -1,6 +1,6 @@
 use polars::{
     frame::DataFrame,
-    prelude::{DataFrameOps, FillNullStrategy, IndexOrder},
+    prelude::{FillNullStrategy, IndexOrder},
 };
 
 use crate::{Matrix, Number, NumberType, preprocessor::Preprocessor, trainer::Trainer};
