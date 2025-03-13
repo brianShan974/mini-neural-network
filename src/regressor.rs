@@ -22,16 +22,13 @@ pub struct Regressor<'a> {
 
 impl<'a> Regressor<'a> {
     pub fn new(
-        x: DataFrame,
-        y: DataFrame,
-        str_cols: Vec<&str>,
         network: &'a mut MultiLayerNetwork,
         loss_layer: Box<dyn LossLayer>,
         batch_size: usize,
         n_epoch: usize,
         learning_rate: Number,
     ) -> Self {
-        let mut new_regressor = Self {
+        Self {
             network,
             loss_layer,
             batch_size,
@@ -39,11 +36,11 @@ impl<'a> Regressor<'a> {
             learning_rate,
             x_preprocessor: None,
             y_preprocessor: None,
-        };
+        }
+    }
 
-        new_regressor.preprocess_training(x, y, str_cols);
-
-        new_regressor
+    pub fn init_preprocessor(&mut self, x: DataFrame, y: DataFrame, str_cols: Vec<&str>) {
+        self.preprocess_training(x, y, str_cols);
     }
 
     pub fn fit(&mut self, x: DataFrame, y: DataFrame, shuffle: bool) {
