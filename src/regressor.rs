@@ -13,38 +13,24 @@ use crate::{
 
 pub struct Regressor<'a> {
     trainer: Trainer<'a>,
-    loss_layer: Box<dyn LossLayer>,
-    batch_size: usize,
-    n_epoch: usize,
-    learning_rate: Number,
     x_preprocessor: Option<Preprocessor>,
     y_preprocessor: Option<Preprocessor>,
     str_cols: Vec<&'a str>,
 }
 
 impl<'a> Regressor<'a> {
-    pub fn new(
-        trainer: Trainer<'a>,
-        loss_layer: Box<dyn LossLayer>,
-        batch_size: usize,
-        n_epoch: usize,
-        learning_rate: Number,
-    ) -> Self {
-        Self {
+    pub fn new(trainer: Trainer<'a>, x: DataFrame, y: DataFrame, str_cols: Vec<&'a str>) -> Self {
+        let mut new_regressor = Self {
             trainer,
-            loss_layer,
-            batch_size,
-            n_epoch,
-            learning_rate,
             x_preprocessor: None,
             y_preprocessor: None,
             str_cols: Vec::new(),
-        }
-    }
+        };
 
-    pub fn init_preprocessor(&mut self, x: DataFrame, y: DataFrame, str_cols: Vec<&'a str>) {
-        self.str_cols = str_cols;
-        self.preprocess_training(x, y);
+        new_regressor.str_cols = str_cols;
+        new_regressor.preprocess_training(x, y);
+
+        new_regressor
     }
 
     pub fn fit(&mut self, x: DataFrame, y: DataFrame, shuffle: bool, verbose: bool) {
