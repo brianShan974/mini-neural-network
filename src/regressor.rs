@@ -9,19 +9,16 @@ pub struct Regressor<'a> {
     trainer: Trainer<'a>,
     x_preprocessor: Option<Preprocessor>,
     y_preprocessor: Option<Preprocessor>,
-    str_cols: Vec<&'a str>,
 }
 
 impl<'a> Regressor<'a> {
-    pub fn new(trainer: Trainer<'a>, x: DataFrame, y: DataFrame, str_cols: Vec<&'a str>) -> Self {
+    pub fn new(trainer: Trainer<'a>, x: DataFrame, y: DataFrame) -> Self {
         let mut new_regressor = Self {
             trainer,
             x_preprocessor: None,
             y_preprocessor: None,
-            str_cols: Vec::new(),
         };
 
-        new_regressor.str_cols = str_cols;
         new_regressor.preprocess_training(x, y);
 
         new_regressor
@@ -33,7 +30,7 @@ impl<'a> Regressor<'a> {
     }
 
     pub fn predict(&self, x: DataFrame) -> Matrix {
-        let x = self.preprocess_x_non_training(x, self.str_cols.clone());
+        let x = self.preprocess_x_non_training(x);
         let y = self.trainer.predict(x);
 
         self.y_preprocessor
@@ -52,31 +49,21 @@ impl<'a> Regressor<'a> {
     }
 
     fn preprocess_training(&mut self, x: DataFrame, y: DataFrame) -> (Matrix, Matrix) {
-        let str_cols = self.str_cols.clone();
-        let result_x = self.preprocess_x_training(x, str_cols);
+        let result_x = self.preprocess_x_training(x);
         let result_y = self.preprocess_y_training(y);
 
         (result_x, result_y)
     }
 
-    fn _preprocess_non_training(
-        &self,
-        x: DataFrame,
-        y: DataFrame,
-        str_cols: Vec<&str>,
-    ) -> (Matrix, Matrix) {
+    fn _preprocess_non_training(&self, x: DataFrame, y: DataFrame) -> (Matrix, Matrix) {
         (
-            self.preprocess_x_non_training(x, str_cols),
+            self.preprocess_x_non_training(x),
             self._preprocess_y_non_training(y),
         )
     }
 
-    fn preprocess_x_training(&mut self, x: DataFrame, str_cols: Vec<&str>) -> Matrix {
+    fn preprocess_x_training(&mut self, x: DataFrame) -> Matrix {
         let x = x
-            .columns_to_dummies(str_cols, None, true)
-            .expect(
-                "Unable to one-hot label the columns for x in Regressor::preprocess_x_training!",
-            )
             .fill_null(FillNullStrategy::Mean)
             .expect("Unable to fill null for x in Regressor::preprocess_x_training!");
 
@@ -99,10 +86,8 @@ impl<'a> Regressor<'a> {
         self.y_preprocessor.as_ref().unwrap().apply(result)
     }
 
-    fn preprocess_x_non_training(&self, x: DataFrame, str_cols: Vec<&str>) -> Matrix {
+    fn preprocess_x_non_training(&self, x: DataFrame) -> Matrix {
         let x = x
-            .columns_to_dummies(str_cols, None, true)
-            .expect("Unable to one-hot label the columns for x in Regressor::preprocess_x_non_training!")
             .fill_null(FillNullStrategy::Mean)
             .expect("Unable to fill null for x in Regressor::preprocess_x_non_training!");
 
