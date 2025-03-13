@@ -16,7 +16,7 @@ use mini_neural_network::{
 use polars::prelude::{CsvParseOptions, CsvReadOptions, DataFrameOps, FillNullStrategy, SerReader};
 
 const LEARNING_RATE: Number = 0.005;
-const EPOCHS: usize = 1000;
+const EPOCHS: usize = 1;
 const SHUFFLE: bool = true;
 const VERBOSE: bool = true;
 
@@ -64,7 +64,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         Box::new(ReLULayer::default()),
         Box::new(SigmoidLayer::default()),
     ];
-    let mut network = MultiLayerNetwork::new(input_dim, &neurons, activations);
+    let mut network =
+        MultiLayerNetwork::new(input_dim, &neurons, activations, Some(10000.0 as Number));
 
     let trainer = Trainer::new(
         &mut network,

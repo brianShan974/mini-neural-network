@@ -16,6 +16,7 @@ impl MultiLayerNetwork {
         input_dim: usize,
         neurons: &[usize],
         mut activations: Vec<Box<dyn ActivationLayer>>,
+        gain: Option<Number>,
     ) -> Self {
         assert_eq!(
             neurons.len(),
@@ -31,7 +32,7 @@ impl MultiLayerNetwork {
         activations.reverse();
 
         for &neuron in neurons {
-            let next_layer = Box::new(LinearLayer::new(current_input_dim, neuron, None));
+            let next_layer = Box::new(LinearLayer::new(current_input_dim, neuron, gain));
             layers.push(next_layer);
             let next_activation_layer = activations.pop().unwrap();
             activation_layers.push(next_activation_layer);

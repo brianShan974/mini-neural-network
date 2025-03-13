@@ -33,7 +33,7 @@ fn main() {
     let neurons = [16, N_OUTPUT_FEATURES];
     let activations: Vec<Box<dyn ActivationLayer>> =
         vec![Box::new(ReLULayer::default()), Box::new(IdentityLayer)];
-    let mut network = MultiLayerNetwork::new(input_dim, &neurons, activations);
+    let mut network = MultiLayerNetwork::new(input_dim, &neurons, activations, None);
 
     let mut reader = ReaderBuilder::new()
         .has_headers(false)
