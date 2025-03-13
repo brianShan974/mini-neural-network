@@ -1,4 +1,5 @@
 use ndarray::{Array1, Array2, ArrayView1, ArrayView2};
+use polars::prelude::Float64Type;
 
 pub mod activation_functions;
 pub mod loss_functions;
@@ -12,6 +13,7 @@ pub mod regressor;
 pub mod trainer;
 
 pub type Number = f64;
+pub type NumberType = Float64Type;
 pub type Vector = Array1<Number>;
 pub type Matrix = Array2<Number>;
 pub type VectorView<'a> = ArrayView1<'a, Number>;
