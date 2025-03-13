@@ -1,4 +1,4 @@
-use ndarray::{Array1, Array2};
+use ndarray::{Array1, Array2, ArrayView1, ArrayView2};
 
 pub mod activation_functions;
 pub mod loss_functions;
@@ -15,3 +15,5 @@ pub mod preprocessor;
 pub type Number = f64;
 pub type Vector = Array1<Number>;
 pub type Matrix = Array2<Number>;
+pub type VectorView<'a> = ArrayView1<'a, Number>;
+pub type MatrixView<'a> = ArrayView2<'a, Number>;
