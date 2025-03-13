@@ -51,7 +51,7 @@ fn main() {
     let (x_train, y_train) = train.split_at(Axis(1), N_INPUT_FEATURES);
     let (x_test, y_test) = test.split_at(Axis(1), N_INPUT_FEATURES);
 
-    let prep = Preprocessor::new(x_train.to_owned());
+    let prep = Preprocessor::new(&x_train.to_owned());
 
     let x_train_preped = prep.apply(x_train.to_owned());
     let x_test_preped = prep.apply(x_test.to_owned());
