@@ -10,10 +10,10 @@ pub struct Preprocessor {
 }
 
 impl Preprocessor {
-    pub fn new(dataset: Matrix) -> Self {
+    pub fn new(dataset: &Matrix) -> Self {
         Self {
-            min: Some(min_in_matrix(&dataset)),
-            max: Some(max_in_matrix(&dataset)),
+            min: Some(min_in_matrix(dataset)),
+            max: Some(max_in_matrix(dataset)),
         }
     }
 
