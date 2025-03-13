@@ -32,32 +32,26 @@ impl<'a> Trainer<'a> {
         }
     }
 
-    pub fn train(
-        &mut self,
-        mut input_dataset: Matrix,
-        mut target_dataset: Matrix,
-        shuffle: bool,
-        verbose: bool,
-    ) {
+    pub fn train(&mut self, mut x: Matrix, mut y: Matrix, shuffle: bool, verbose: bool) {
         assert_eq!(
-            input_dataset.nrows(),
-            target_dataset.nrows(),
+            x.nrows(),
+            y.nrows(),
             "They must have the same amount of samples!"
         );
 
         for e in 0..self.n_epoch {
             if shuffle {
-                Self::shuffle(&mut input_dataset, &mut target_dataset)
+                Self::shuffle(&mut x, &mut y)
             }
 
-            let mut input_remaining = input_dataset.view();
-            let mut target_remaining = target_dataset.view();
+            let mut x_remaining = x.view();
+            let mut y_remaining = y.view();
 
             let mut batch = 1;
             let mut next_split;
 
             loop {
-                let remaining_rows = input_remaining.nrows();
+                let remaining_rows = x_remaining.nrows();
 
                 if remaining_rows > self.batch_size {
                     next_split = self.batch_size;
@@ -65,13 +59,11 @@ impl<'a> Trainer<'a> {
                     next_split = remaining_rows;
                 }
 
-                let (input_current, input_next) = input_remaining.split_at(Axis(0), next_split);
-                let (target_current, target_next) = target_remaining.split_at(Axis(0), next_split);
+                let (x_current, x_next) = x_remaining.split_at(Axis(0), next_split);
+                let (y_current, y_next) = y_remaining.split_at(Axis(0), next_split);
 
-                let pred_batch = self.network.forward(input_current.to_owned());
-                let loss = self
-                    .loss_layer
-                    .forward(pred_batch, target_current.to_owned());
+                let pred_batch = self.network.forward(x_current.to_owned());
+                let loss = self.loss_layer.forward(pred_batch, y_current.to_owned());
                 let grad_loss = self.loss_layer.backward();
                 self.network.backward(grad_loss);
                 self.network.update_parameters(self.learning_rate);
@@ -80,8 +72,8 @@ impl<'a> Trainer<'a> {
                     println!("Epoch: {}, batch: {batch}, current loss: {loss}", e + 1);
                 }
 
-                input_remaining = input_next;
-                target_remaining = target_next;
+                x_remaining = x_next;
+                y_remaining = y_next;
 
                 batch += 1;
 
@@ -92,41 +84,45 @@ impl<'a> Trainer<'a> {
         }
     }
 
-    pub fn eval_loss(&mut self, input_dataset: Matrix, target_dataset: Matrix) -> Number {
+    pub fn eval_loss(&mut self, x: Matrix, y: Matrix) -> Number {
         assert_eq!(
-            input_dataset.nrows(),
-            target_dataset.nrows(),
+            x.nrows(),
+            y.nrows(),
             "They must have the same amount of samples!"
         );
 
-        let pred = self.network.forward(input_dataset);
+        let pred = self.network.forward(x);
 
-        self.loss_layer.forward(pred, target_dataset)
+        self.loss_layer.forward(pred, y)
     }
 
-    pub fn eval_loss_only(&self, input_dataset: Matrix, target_dataset: Matrix) -> Number {
+    pub fn eval_loss_only(&self, x: Matrix, y: Matrix) -> Number {
         assert_eq!(
-            input_dataset.nrows(),
-            target_dataset.nrows(),
+            x.nrows(),
+            y.nrows(),
             "They must have the same amount of samples!"
         );
 
-        let pred = self.network.eval_only(input_dataset);
+        let pred = self.network.eval_only(x);
 
-        self.loss_layer.eval_only(pred, target_dataset)
+        self.loss_layer.eval_only(pred, y)
     }
 
-    fn shuffle(input_dataset: &mut Matrix, target_dataset: &mut Matrix) {
+    pub fn predict(&self, x: Matrix) -> Matrix {
+        self.network.eval_only(x)
+    }
+
+    fn shuffle(x: &mut Matrix, y: &mut Matrix) {
         assert_eq!(
-            input_dataset.nrows(),
-            target_dataset.nrows(),
+            x.nrows(),
+            y.nrows(),
             "They must have the same amount of samples!"
         );
 
-        let mut indices: Vec<usize> = (0..input_dataset.nrows()).collect();
+        let mut indices: Vec<usize> = (0..x.nrows()).collect();
         indices.shuffle(&mut rng());
 
-        *input_dataset = input_dataset.select(Axis(0), &indices);
-        *target_dataset = target_dataset.select(Axis(0), &indices);
+        *x = x.select(Axis(0), &indices);
+        *y = y.select(Axis(0), &indices);
     }
 }
