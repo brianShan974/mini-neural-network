@@ -54,12 +54,19 @@ impl<'a> Trainer<'a> {
             let mut target_remaining = target_dataset.view();
 
             let mut batch = 1;
+            let mut next_split;
 
             loop {
-                let (input_current, input_next) =
-                    input_remaining.split_at(Axis(0), self.batch_size);
-                let (target_current, target_next) =
-                    target_remaining.split_at(Axis(0), self.batch_size);
+                let remaining_rows = input_remaining.nrows();
+
+                if remaining_rows > self.batch_size {
+                    next_split = self.batch_size;
+                } else {
+                    next_split = remaining_rows;
+                }
+
+                let (input_current, input_next) = input_remaining.split_at(Axis(0), next_split);
+                let (target_current, target_next) = target_remaining.split_at(Axis(0), next_split);
 
                 let pred_batch = self.network.forward(input_current.to_owned());
                 let loss = self
@@ -78,25 +85,7 @@ impl<'a> Trainer<'a> {
 
                 batch += 1;
 
-                let remaining_rows = input_remaining.nrows();
-                if remaining_rows > self.batch_size {
-                    continue;
-                } else {
-                    let (input_current, _) = input_remaining.split_at(Axis(0), remaining_rows);
-                    let (target_current, _) = target_remaining.split_at(Axis(0), remaining_rows);
-
-                    let pred_batch = self.network.forward(input_current.to_owned());
-                    let loss = self
-                        .loss_layer
-                        .forward(pred_batch, target_current.to_owned());
-                    let grad_loss = self.loss_layer.backward();
-                    self.network.backward(grad_loss);
-                    self.network.update_parameters(self.learning_rate);
-
-                    if verbose {
-                        println!("Epoch: {}, batch: {batch}, current loss: {loss}", e + 1);
-                    }
-
+                if next_split == remaining_rows {
                     break;
                 }
             }
