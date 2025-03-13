@@ -1,9 +1,10 @@
 use crate::{
     Matrix,
     activation_functions::{sigmoid, sigmoid_derivative},
+    layers::layer::Layer,
 };
 
-use super::layer::Layer;
+use super::activation_layer::ActivationLayer;
 
 #[derive(Default)]
 pub struct SigmoidLayer {
@@ -20,3 +21,5 @@ impl Layer for SigmoidLayer {
         self.cache.clone().unwrap() * grad_z
     }
 }
+
+impl ActivationLayer for SigmoidLayer {}

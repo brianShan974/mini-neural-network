@@ -3,7 +3,7 @@ use rand::{rng, seq::SliceRandom};
 
 use crate::{
     Matrix, Number,
-    layers::{layer::Layer, loss_layer::LossLayer},
+    layers::{layer::Layer, loss_layers::loss_layer::LossLayer},
     multilayer_network::MultiLayerNetwork,
 };
 

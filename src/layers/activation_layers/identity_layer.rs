@@ -1,6 +1,6 @@
-use crate::Matrix;
+use crate::{Matrix, layers::layer::Layer};
 
-use super::layer::Layer;
+use super::activation_layer::ActivationLayer;
 
 #[derive(Default)]
 pub struct IdentityLayer;
@@ -14,3 +14,5 @@ impl Layer for IdentityLayer {
         grad_z
     }
 }
+
+impl ActivationLayer for IdentityLayer {}

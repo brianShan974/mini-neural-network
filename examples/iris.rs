@@ -2,8 +2,11 @@ use csv::ReaderBuilder;
 use mini_neural_network::{
     Matrix, Number,
     layers::{
-        activation_layer::ActivationLayer, identity_layer::IdentityLayer, layer::Layer,
-        mse_loss_layer::MSELossLayer, relu_layer::ReluLayer,
+        activation_layers::{
+            activation_layer::ActivationLayer, identity_layer::IdentityLayer, relu_layer::ReLULayer,
+        },
+        layer::Layer,
+        loss_layers::mse_loss_layer::MSELossLayer,
     },
     multilayer_network::MultiLayerNetwork,
     preprocessor::Preprocessor,
@@ -28,10 +31,8 @@ const TRAIN_SIZE: usize = N_SAMPLES * 4 / 5;
 fn main() {
     let input_dim = N_INPUT_FEATURES;
     let neurons = [16, N_OUTPUT_FEATURES];
-    let activations = vec![
-        ActivationLayer::ReLU(ReluLayer::default()),
-        ActivationLayer::Identity(IdentityLayer),
-    ];
+    let activations: Vec<Box<dyn ActivationLayer>> =
+        vec![Box::new(ReLULayer::default()), Box::new(IdentityLayer)];
     let mut network = MultiLayerNetwork::new(input_dim, &neurons, activations);
 
     let mut reader = ReaderBuilder::new()
