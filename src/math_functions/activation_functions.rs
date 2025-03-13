@@ -1,6 +1,7 @@
-use crate::{
-    Matrix, Number,
-    utils::{relu_derivative_single, relu_single, sigmoid_derivative_single, sigmoid_single},
+use crate::{Matrix, Number};
+
+use super::math_func::{
+    relu_derivative_single, relu_single, sigmoid_derivative_single, sigmoid_single,
 };
 
 pub fn sigmoid(mut x: Matrix) -> Matrix {

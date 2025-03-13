@@ -1,6 +1,6 @@
 use crate::{
     Matrix, Number,
-    loss_functions::{mse, mse_derivative},
+    math_functions::loss_functions::{mse, mse_derivative},
 };
 
 use super::loss_layer::LossLayer;

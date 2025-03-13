@@ -1,7 +1,7 @@
 use crate::{
     Matrix,
-    activation_functions::{sigmoid, sigmoid_derivative},
     layers::layer::Layer,
+    math_functions::activation_functions::{sigmoid, sigmoid_derivative},
 };
 
 use super::activation_layer::ActivationLayer;

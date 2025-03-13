@@ -1,9 +1,9 @@
 use ndarray::{Array1, Array2, ArrayView1, ArrayView2};
 use polars::prelude::Float64Type;
 
-pub mod activation_functions;
-pub mod loss_functions;
 pub mod utils;
+
+pub mod math_functions;
 
 pub mod layers;
 pub mod multilayer_network;

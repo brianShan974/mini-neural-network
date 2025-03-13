@@ -1,7 +1,7 @@
 use crate::{
     Matrix,
-    activation_functions::{relu, relu_derivative},
     layers::layer::Layer,
+    math_functions::activation_functions::{relu, relu_derivative},
 };
 
 use super::activation_layer::ActivationLayer;

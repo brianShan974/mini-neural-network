@@ -1,4 +1,4 @@
-use crate::{Matrix, Number, activation_functions::softmax};
+use crate::{Matrix, Number, math_functions::activation_functions::softmax};
 
 use super::loss_layer::LossLayer;
 
