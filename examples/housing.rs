@@ -16,7 +16,7 @@ use mini_neural_network::{
 use polars::prelude::{CsvParseOptions, CsvReadOptions, DataFrameOps, FillNullStrategy, SerReader};
 
 const LEARNING_RATE: Number = 0.005;
-const EPOCHS: usize = 1;
+const EPOCHS: usize = 1000;
 const SHUFFLE: bool = true;
 const VERBOSE: bool = true;
 
@@ -79,7 +79,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     regressor.fit(x_train.clone(), y_train.clone(), SHUFFLE, VERBOSE);
 
-    dbg!(regressor.predict(x_train.clone()));
+    // dbg!(regressor.predict(x_train.clone()));
 
     println!(
         "Sqrt train loss: {}",
