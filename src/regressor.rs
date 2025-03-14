@@ -48,13 +48,6 @@ impl<'a> Regressor<'a> {
         (result_x, result_y)
     }
 
-    fn _preprocess_non_training(&self, x: DataFrame, y: DataFrame) -> (Matrix, Matrix) {
-        (
-            self.preprocess_x_non_training(x),
-            self._preprocess_y_non_training(y),
-        )
-    }
-
     fn preprocess_x_training(&mut self, x: DataFrame) -> Matrix {
         let x = x
             .fill_null(FillNullStrategy::Mean)
@@ -74,12 +67,17 @@ impl<'a> Regressor<'a> {
             .expect("Unable to convert y to ndarray in Regressor::preprocess_y_training!")
     }
 
+    fn _preprocess_non_training(&self, x: DataFrame, y: DataFrame) -> (Matrix, Matrix) {
+        (
+            self.preprocess_x_non_training(x),
+            self._preprocess_y_non_training(y),
+        )
+    }
+
     fn preprocess_x_non_training(&self, x: DataFrame) -> Matrix {
         let x = x
             .fill_null(FillNullStrategy::Mean)
-            .expect("Unable to fill null for x in Regressor::preprocess_x_non_training!");
-
-        let result = x
+            .expect("Unable to fill null for x in Regressor::preprocess_x_non_training!")
             .to_ndarray::<NumberType>(IndexOrder::C)
             .expect("Unable to convert x to ndarray in Regressor::preprocess_x_non_training!");
 
@@ -88,7 +86,7 @@ impl<'a> Regressor<'a> {
             .expect(
                 "You must initialise the preprocessor before calling Regressor::preprocess_x_non_training!",
             )
-            .apply(result)
+            .apply(x)
     }
 
     fn _preprocess_y_non_training(&self, y: DataFrame) -> Matrix {
