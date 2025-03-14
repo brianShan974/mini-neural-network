@@ -59,10 +59,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     let input_dim = n_cols - N_OUTPUT_FEATURES;
     let neurons = [64, 32, 16, N_OUTPUT_FEATURES];
     let activations: Vec<Box<dyn ActivationLayer>> = vec![
-        Box::new(IdentityLayer),
         Box::new(ReLULayer::default()),
         Box::new(ReLULayer::default()),
-        Box::new(SigmoidLayer::default()),
+        Box::new(ReLULayer::default()),
+        Box::new(ReLULayer::default()),
     ];
     let mut network =
         MultiLayerNetwork::new(input_dim, &neurons, activations, Some(10000.0 as Number));
@@ -78,6 +78,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut regressor = Regressor::new(trainer, x_train.clone(), y_train.clone());
 
     regressor.fit(x_train.clone(), y_train.clone(), SHUFFLE, VERBOSE);
+
+    dbg!(regressor.predict(x_train.clone()));
 
     println!(
         "Sqrt train loss: {}",
