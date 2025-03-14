@@ -108,6 +108,10 @@ impl<'a> Trainer<'a> {
         self.loss_layer.eval_only(pred, y)
     }
 
+    pub fn eval_loss_only_with_pred(&self, pred: Matrix, target: Matrix) -> Number {
+        self.loss_layer.eval_only(pred, target)
+    }
+
     pub fn predict(&self, x: Matrix) -> Matrix {
         self.network.eval_only(x)
     }

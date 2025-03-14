@@ -8,7 +8,6 @@ use crate::{Matrix, Number, NumberType, preprocessor::Preprocessor, trainer::Tra
 pub struct Regressor<'a> {
     trainer: Trainer<'a>,
     x_preprocessor: Option<Preprocessor>,
-    y_preprocessor: Option<Preprocessor>,
 }
 
 impl<'a> Regressor<'a> {
@@ -16,7 +15,6 @@ impl<'a> Regressor<'a> {
         let mut new_regressor = Self {
             trainer,
             x_preprocessor: None,
-            y_preprocessor: None,
         };
 
         new_regressor.preprocess_training(x, y);
@@ -31,18 +29,13 @@ impl<'a> Regressor<'a> {
 
     pub fn predict(&self, x: DataFrame) -> Matrix {
         let x = self.preprocess_x_non_training(x);
-        let y = self.trainer.predict(x);
-
-        self.y_preprocessor
-            .as_ref()
-            .expect("You must initialise the preprocessor before calling Regressor::predict!")
-            .apply(y)
+        self.trainer.predict(x)
     }
 
     pub fn eval_loss(&self, x: DataFrame, y: DataFrame) -> Number {
-        self.trainer.eval_loss_only(
-            x.to_ndarray::<NumberType>(IndexOrder::C)
-                .expect("Unable to convert x to ndarray in Regressor::eval_loss!"),
+        let pred = self.predict(x);
+        self.trainer.eval_loss_only_with_pred(
+            pred,
             y.to_ndarray::<NumberType>(IndexOrder::C)
                 .expect("Unable to convert y to ndarray in Regressor::eval_loss!"),
         )
@@ -77,13 +70,8 @@ impl<'a> Regressor<'a> {
     }
 
     fn preprocess_y_training(&mut self, y: DataFrame) -> Matrix {
-        let result = y
-            .to_ndarray::<NumberType>(IndexOrder::C)
-            .expect("Unable to convert y to ndarray in Regressor::preprocess_y_training!");
-
-        self.y_preprocessor = Some(Preprocessor::new(result.view()));
-
-        self.y_preprocessor.as_ref().unwrap().apply(result)
+        y.to_ndarray::<NumberType>(IndexOrder::C)
+            .expect("Unable to convert y to ndarray in Regressor::preprocess_y_training!")
     }
 
     fn preprocess_x_non_training(&self, x: DataFrame) -> Matrix {
@@ -104,15 +92,7 @@ impl<'a> Regressor<'a> {
     }
 
     fn _preprocess_y_non_training(&self, y: DataFrame) -> Matrix {
-        let result = y
-            .to_ndarray::<NumberType>(IndexOrder::C)
-            .expect("Unable to convert y to ndarray in Regressor::_preprocess_y_non_training!");
-
-        self.y_preprocessor
-            .as_ref()
-            .expect(
-                "You must initialise the preprocessor before calling Regressor::_preprocess_y_non_training!",
-            )
-            .apply(result)
+        y.to_ndarray::<NumberType>(IndexOrder::C)
+            .expect("Unable to convert y to ndarray in Regressor::_preprocess_y_non_training!")
     }
 }
